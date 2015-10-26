@@ -20,4 +20,7 @@ hs_err_pid*
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+.settings/
+
+# Maven output
 /target/
