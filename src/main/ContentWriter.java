@@ -53,24 +53,7 @@ public class ContentWriter {
 	 * @throws InvalidTemplateException if the template file is not a valid type
 	 */
 	public ContentWriter(String templateFilename) throws IOException, InvalidTemplateException {
-		this(templateFilename, prependOutput(templateFilename));
-	}
-	
-	/**
-	 * prepends "output" to a string, if the string is a file path that contains 
-	 * name-separators then "output" will be prepended to the last element of the 
-	 * file path
-	 * @param s the string that "output" will be prepended to
-	 * @return a string that is the same as s, but with "output" prepended to it
-	 */
-	private static String prependOutput(String s) {
-		StringBuilder sb = new StringBuilder();
-		String[] split = s.split(File.separator);
-		for (int i = 0; i < split.length - 1; i++) {
-			sb.append(split[i] + "/");
-		}
-		sb.append("output" + split[split.length - 1]);
-		return sb.toString();
+		this(templateFilename, StringUtil.prependOutput(templateFilename));
 	}
 	
 	/**
