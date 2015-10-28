@@ -32,6 +32,7 @@ public class ContentWriter {
 	 */
 	public ContentWriter(String templateFilename, String outputFilename) throws IOException {
 		//TODO: verify that the file is a valid template
+		//if (Files.probeContentType(Paths.get(templateFilename)).equals("text/html"))
 		this.templateFilename = templateFilename;
 		this.outputFilename = outputFilename;
 		generateOutputFile(templateFilename, outputFilename);
@@ -49,15 +50,19 @@ public class ContentWriter {
 	}
 	
 	/**
-	 * prepends "output" to a string
-	 * @param s the string that output will be prepended to
+	 * prepends "output" to a string, if the string is a file path that contains 
+	 * name-separators then "output" will be prepended to the last element of the 
+	 * file path
+	 * @param s the string that "output" will be prepended to
 	 * @return a string that is the same as s, but with "output" prepended to it
 	 */
 	private static String prependOutput(String s) {
-		//TODO: if filename contains /../.. etc then the prepending fails
 		StringBuilder sb = new StringBuilder();
-		sb.append("output");
-		sb.append(s);
+		String[] split = s.split(File.separator);
+		for (int i = 0; i < split.length - 1; i++) {
+			sb.append(split[i] + "/");
+		}
+		sb.append("output" + split[split.length - 1]);
 		return sb.toString();
 	}
 	
