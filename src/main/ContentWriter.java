@@ -31,16 +31,16 @@ public class ContentWriter {
 	 * @param templateFilename the filename of the template file
 	 * @param outputFilename the filename of the output file
 	 * @throws IOException if the template file cannot be found
-	 * @throws InvalidTemplateException if the template file is not a valid type
+	 * @throws InvalidFileException if the template file is not a valid type
 	 */
-	public ContentWriter(String templateFilename, String outputFilename) throws IOException, InvalidTemplateException {
+	public ContentWriter(String templateFilename, String outputFilename) throws IOException, InvalidFileException {
 		if (Files.probeContentType(Paths.get(templateFilename)).equals("text/html")) {
 			this.templateFilename = templateFilename;
 			this.outputFilename = outputFilename;
 			generateOutputFile(templateFilename, outputFilename);
 		} else {
-			throw new InvalidTemplateException("invalid template type: " + 
-					Paths.get(templateFilename) + ", template type must be text/html");
+			throw new InvalidFileException("invalid file type: " + 
+					Paths.get(templateFilename) + ", template file type must be text/html");
 		}
 	}
 	
@@ -50,9 +50,9 @@ public class ContentWriter {
 	 * output file because no output filename was given
 	 * @param templateFilename the filename of the template file
 	 * @throws IOException if the template file cannot be found
-	 * @throws InvalidTemplateException if the template file is not a valid type
+	 * @throws InvalidFileException if the template file is not a valid type
 	 */
-	public ContentWriter(String templateFilename) throws IOException, InvalidTemplateException {
+	public ContentWriter(String templateFilename) throws IOException, InvalidFileException {
 		this(templateFilename, StringUtil.prependOutput(templateFilename));
 	}
 	
