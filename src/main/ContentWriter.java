@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,13 +31,17 @@ public class ContentWriter {
 	 * @param templateFilename the filename of the template file
 	 * @param outputFilename the filename of the output file
 	 * @throws IOException if the template file cannot be found
+	 * @throws InvalidTemplateException if the template file is not a valid type
 	 */
-	public ContentWriter(String templateFilename, String outputFilename) throws IOException {
-		//TODO: verify that the file is a valid template
-		//if (Files.probeContentType(Paths.get(templateFilename)).equals("text/html"))
-		this.templateFilename = templateFilename;
-		this.outputFilename = outputFilename;
-		generateOutputFile(templateFilename, outputFilename);
+	public ContentWriter(String templateFilename, String outputFilename) throws IOException, InvalidTemplateException {
+		if (Files.probeContentType(Paths.get(templateFilename)).equals("text/html")) {
+			this.templateFilename = templateFilename;
+			this.outputFilename = outputFilename;
+			generateOutputFile(templateFilename, outputFilename);
+		} else {
+			throw new InvalidTemplateException("invalid template type: " + 
+					Paths.get(templateFilename) + ", template type must be text/html");
+		}
 	}
 	
 	/**
@@ -44,8 +50,9 @@ public class ContentWriter {
 	 * output file because no output filename was given
 	 * @param templateFilename the filename of the template file
 	 * @throws IOException if the template file cannot be found
+	 * @throws InvalidTemplateException if the template file is not a valid type
 	 */
-	public ContentWriter(String templateFilename) throws IOException {
+	public ContentWriter(String templateFilename) throws IOException, InvalidTemplateException {
 		this(templateFilename, prependOutput(templateFilename));
 	}
 	
