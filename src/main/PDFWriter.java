@@ -1,8 +1,16 @@
 package main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 /**
  * a class that is used to write a template file to a PDF file
@@ -22,12 +30,13 @@ public class PDFWriter {
 	 * @throws InvalidFileException if the input file is not a valid type
 	 */
 	public PDFWriter(String inputFilename, String outputFilename) throws IOException, InvalidFileException {
-		if (Files.probeContentType(Paths.get(inputFilename)).equals("application/pdf")) {
+		if (Files.probeContentType(Paths.get(inputFilename)).equals("text/html")) {
 			this.inputFilename = inputFilename;
 			this.outputFilename = outputFilename;
 		} else {
 			throw new InvalidFileException("invalid file type: " + 
-					Paths.get(inputFilename) + ", input file type must be application/pdf");
+					Files.probeContentType(Paths.get(inputFilename)) + 
+					", input file type must be text/html");
 		}
 	}
 	
@@ -40,6 +49,20 @@ public class PDFWriter {
 	 */
 	public PDFWriter(String inputFilename) throws IOException, InvalidFileException {
 		this(inputFilename, StringUtil.prependOutput(inputFilename));
+	}
+	
+	/**
+	 * writes a pdf file named outputFilename using the content from the file specified 
+	 * by inputFilename
+	 * @throws DocumentException if PdfWriter fails to get an instance
+	 * @throws IOException if the file specified by inputFileName cannot be found
+	 */
+	public void writePDF() throws DocumentException, IOException {
+		Document document = new Document();
+		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(outputFilename)));
+		document.open();
+		XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(inputFilename));
+		document.close();
 	}
 	
 }

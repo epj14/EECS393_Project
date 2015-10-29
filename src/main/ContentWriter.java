@@ -40,7 +40,8 @@ public class ContentWriter {
 			generateOutputFile(templateFilename, outputFilename);
 		} else {
 			throw new InvalidFileException("invalid file type: " + 
-					Paths.get(templateFilename) + ", template file type must be text/html");
+					Files.probeContentType(Paths.get(templateFilename)) + 
+					", template file type must be text/html");
 		}
 	}
 	
@@ -82,7 +83,7 @@ public class ContentWriter {
 	 * @throws IOException if the template (now copied to the output file) cannot be 
 	 * parsed or if the output file cannot be written after changes have been made
 	 */
-	public void putContent(String header, String content) throws IOException {
+	public void writeContent(String header, String content) throws IOException {
 		//TODO: expand this method to support more than just <h1> elements
 		//TODO: if there is a problem reading or writing the output file, regenerate using the template 
 		File outputFile = new File(outputFilename);
