@@ -24,4 +24,30 @@ public class StringUtil {
 		return sb.toString();
 	}
 	
+	/**
+	 * replaces everything after the last "." in a string with a specified extension if 
+	 * the string contains ".", or appends the specified extension to the string if the 
+	 * string does not contain "." 
+	 * @param s the string where everything after its last "." will be replaced by 
+	 * extension if it contains ".", or that the specified extension will be appended to 
+	 * if it does not contain "."
+	 * @param extension the extension that will replace everything after the last "." in 
+	 * s if s contains ".", or that will be appended to s if s does not contain "."
+	 * @return a string that is the same as s, but with everything after the last "." in 
+	 * the string replaced by extension if s contained ".", or with extension appended to 
+	 * the end of s if s does not contain "."
+	 */
+	public static String replaceExtension(String s, String extension) {
+		if (extension.contains(".")) {
+			extension = extension.substring(1);
+		}
+		StringBuilder sb = new StringBuilder();
+		String[] split = s.split("\\.");
+		sb.append(split[0] + ".");
+		for (int i = 1; i < split.length - 1; i++) {
+			sb.append(split[i] + ".");
+		}
+		sb.append(extension);
+		return sb.toString();
+	}
 }

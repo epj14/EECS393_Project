@@ -48,7 +48,7 @@ public class PDFWriter {
 	 * @throws InvalidFileException if the input file is not a valid type
 	 */
 	public PDFWriter(String inputFilename) throws IOException, InvalidFileException {
-		this(inputFilename, StringUtil.prependOutput(inputFilename));
+		this(inputFilename, StringUtil.prependOutput(StringUtil.replaceExtension(inputFilename, "pdf")));
 	}
 	
 	/**
