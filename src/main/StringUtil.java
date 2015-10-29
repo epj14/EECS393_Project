@@ -18,7 +18,7 @@ public class StringUtil {
 		StringBuilder sb = new StringBuilder();
 		String[] split = s.split(File.separator);
 		for (int i = 0; i < split.length - 1; i++) {
-			sb.append(split[i] + "/");
+			sb.append(split[i] + File.separator);
 		}
 		sb.append("output" + split[split.length - 1]);
 		return sb.toString();
