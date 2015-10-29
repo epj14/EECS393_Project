@@ -23,5 +23,5 @@ public class StringUtil {
 		sb.append("output" + split[split.length - 1]);
 		return sb.toString();
 	}
-
+	
 }

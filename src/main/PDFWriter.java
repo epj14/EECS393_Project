@@ -65,4 +65,21 @@ public class PDFWriter {
 		document.close();
 	}
 	
+	/**
+	 * used to demo the program for the 10/30 meeting
+	 * @param args none
+	 */
+	public static void main(String[] args) {
+		try {
+			PDFWriter pw = new PDFWriter("/home/evan/Desktop/outputtest.html", "/home/evan/Desktop/output.pdf");
+			pw.writePDF();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InvalidFileException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
