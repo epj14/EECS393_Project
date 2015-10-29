@@ -9,20 +9,13 @@ package resumecvform;
  *
  * @author Sean
  */
+import java.awt.Component;
 import javax.swing.*;
 import java.io.*;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-
-
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
-public class ResumeCVInput extends javax.swing.JFrame {
+import java.lang.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+public class ResumeCVInputV2 extends javax.swing.JFrame {
 
     /**
      * Creates new form ResumeCVInput
@@ -39,11 +32,11 @@ public class ResumeCVInput extends javax.swing.JFrame {
     private String args[] = {};
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jButton4;
-    private String fileText;
-    public ResumeCVInput(String fileText) {
+    //private javax.swing.JScrollPane jScrollPane3;
+    //private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPanel jPanel1;
+    public ResumeCVInputV2() {
         initComponents();
-        this.fileText = fileText;
-        jTextArea1.setText(fileText);
     }
 
     /**
@@ -55,8 +48,6 @@ public class ResumeCVInput extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jButton1 = new javax.swing.JButton();
@@ -64,13 +55,10 @@ public class ResumeCVInput extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Resume Input");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         jTextPane1.setText("Help Pane");
         jScrollPane2.setViewportView(jTextPane1);
@@ -107,49 +95,56 @@ public class ResumeCVInput extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 375, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4))
-                        .addContainerGap(107, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton2)
+                        .addComponent(jButton1)
+                        .addComponent(jButton3)
+                        .addComponent(jButton4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)))
-                .addGap(10, 10, 10)
-                .addComponent(jButton4)
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -179,25 +174,31 @@ public class ResumeCVInput extends javax.swing.JFrame {
         // TODO add your handling code here:
         // TODO add your handling code here:
         JFileChooser saveChooser = new JFileChooser();
-        int returnValue = saveChooser.showSaveDialog(ResumeCVInput.this);
+        int returnValue = saveChooser.showSaveDialog(ResumeCVInputV2.this);
         String saveName = saveChooser.getSelectedFile().getName();
         if (returnValue != JFileChooser.APPROVE_OPTION) {
             JPanel panel = new JPanel();
            JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
         isSaved = true;
-        jTextField1.setText(saveChooser.getSelectedFile().getAbsolutePath());
+        jTextField1.setText(saveName);
         File saveFile = new File(saveChooser.getSelectedFile() + ".html");
-        String contents = jTextArea1.getText();
+        //String contents = jTextArea1.getText();
+        StringBuilder contentBuilder = new StringBuilder();
         FileWriter fw;
+        for (Component c : jPanel1.getComponents()){
+            if (c instanceof JTextArea) {
+               contentBuilder.append(((JTextArea)c).getText() + "\n");
+        }
+        }   
+        String contents = contentBuilder.toString();
             try {
                 fw = new FileWriter(saveFile);
                 fw.write(contents);
                 //Evan's class will help you here.
-            } catch (Exception e) {
+            } catch (IOException ex) {
                 JPanel panel = new JPanel();
                 JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
-                e.printStackTrace();
             }
         
         }
@@ -209,36 +210,9 @@ public class ResumeCVInput extends javax.swing.JFrame {
         if (isSaved == false){
             JPanel panel = new JPanel();
             JOptionPane.showMessageDialog(panel, "File must be saved to output.  Please try again!", "Output Error", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-           try{
-           String inputFile = jTextArea1.getText();
-           JFileChooser pdfChooser = new JFileChooser();
-           int returnVal = pdfChooser.showSaveDialog(ResumeCVInput.this);
-           String outputFile = pdfChooser.getSelectedFile().getAbsolutePath();
-           createPdf(outputFile);
-           String fileArgs[] = {inputFile, outputFile};
-           pdfOutput.main(fileArgs);
-        }
-           catch(Exception e){
-               JPanel panel = new JPanel();
-               JOptionPane.showMessageDialog(panel, "An error occurred, most likely because your file couldn't be found.  Please try again!", "Output Error", JOptionPane.INFORMATION_MESSAGE);
-               e.printStackTrace();
-           }
         }
     }//GEN-LAST:event_jButton4MouseClicked
-    //create the output PDF File
-    public void createPdf(String outputFile) throws DocumentException, IOException{
-        Document outputDoc = new Document();
-        PdfWriter.getInstance(outputDoc, new FileOutputStream(outputFile));
-        outputDoc.open();
-        outputDoc.add(new Paragraph("test"));
-    } 
-    
-    public String getHTMLText(){
-     return "blah";
-     //Ask Evan how to extract this.
-    }
-    
+                                
     /**
      * @param args the command line arguments
      */
@@ -256,20 +230,21 @@ public class ResumeCVInput extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ResumeCVInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ResumeCVInputV2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ResumeCVInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ResumeCVInputV2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ResumeCVInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ResumeCVInputV2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ResumeCVInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ResumeCVInputV2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ResumeCVInput(args[0]).setVisible(true);
+                new ResumeCVInputV2().setVisible(true);
             }
         });
     }
@@ -279,9 +254,8 @@ public class ResumeCVInput extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables

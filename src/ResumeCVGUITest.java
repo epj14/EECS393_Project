@@ -9,13 +9,7 @@ package resumecvform;
  *
  * @author Sean
  */
-import javax.swing.*;
-import java.io.*;
-import java.util.*;
-import org.jsoup.*;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import javax.swing.JFileChooser;
 public class ResumeCVGUI extends javax.swing.JFrame {
 
     /**
@@ -163,34 +157,13 @@ public class ResumeCVGUI extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         JFileChooser templateChooser = new JFileChooser();
-        JFileChooser outputChooser = new JFileChooser();
-        int outputReturn = outputChooser.showSaveDialog(ResumeCVGUI.this);
         int returnValue = templateChooser.showOpenDialog(ResumeCVGUI.this);
-        if (returnValue == JFileChooser.APPROVE_OPTION && outputReturn == JFileChooser.APPROVE_OPTION) {
-            //System.out.println("Okay genius, parse the template");
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            System.out.println("Okay genius, parse the template");
             //The call to parse the template would go here.
             //I think Evan is working on that.
-            try {
-            String templateName = templateChooser.getSelectedFile().getName();
-            String templatePath = templateChooser.getSelectedFile().getAbsolutePath();
-            String outputName = outputChooser.getSelectedFile().getName();
-            String outputPath = outputChooser.getSelectedFile().getAbsolutePath();
-            ContentWriter.generateOutputFile(templatePath, outputPath);
             
-            
-            File resumeFile = new File(templatePath);
-            Document templateDoc = Jsoup.parse(resumeFile.toString());
-            Elements htags = templateDoc.select("h1");
-            String resumeText = htags.text();
-            String inputArgs[] = {resumeText};
-            ResumeCVInput.main(inputArgs);
-            }
-            catch (Exception e) {
-                JPanel panel = new JPanel();
-                JOptionPane.showMessageDialog(panel, "An error occured due to a problem parsing the template.  Please try again!", "Error!", JOptionPane.INFORMATION_MESSAGE);
-                e.printStackTrace();
-            }
-            
+            ResumeCVInput.main(args);
         }
     }//GEN-LAST:event_jButton1MouseClicked
     //open an existing resume

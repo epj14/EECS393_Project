@@ -27,7 +27,7 @@ public class pdfOutput
         PdfWriter wrt = PdfWriter.getInstance(doc, new FileOutputStream(outFile));
  
         doc.open();
-        
+        //how do we know that the operation will be done on the current document?
         //Parses HTML
         XMLWorkerHelper.getInstance().parseXHtml(wrt, doc, new FileInputStream(inFile));
         
