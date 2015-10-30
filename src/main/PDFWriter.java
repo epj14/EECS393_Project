@@ -52,6 +52,30 @@ public class PDFWriter {
 	}
 	
 	/**
+	 * gets the input filename
+	 * @return the input filename
+	 */
+	public String getInputFilename() {
+		return inputFilename;
+	}
+
+	/**
+	 * gets the output filename
+	 * @return the output filename
+	 */
+	public String getOutputFilename() {
+		return outputFilename;
+	}
+
+	/**
+	 * sets the output filename
+	 * @param outputFilename the output filename to set
+	 */
+	public void setOutputFilename(String outputFilename) {
+		this.outputFilename = outputFilename;
+	}
+
+	/**
 	 * writes a pdf file named outputFilename using the content from the file specified 
 	 * by inputFilename
 	 * @throws DocumentException if PdfWriter fails to get an instance
