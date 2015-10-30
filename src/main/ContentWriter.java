@@ -119,19 +119,4 @@ public class ContentWriter {
 		bw.close();
 	}
 	
-	/**
-	 * used to demo the program for the 10/30 meeting
-	 * @param args none
-	 */
-	public static void main(String[] args) {
-		try {
-			ContentWriter cw = new ContentWriter("/home/evan/Desktop/test.html");
-			cw.writeContent("heading", "this is test content");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InvalidFileException e) {
-			e.printStackTrace();
-		}
-	}
-	
 }
