@@ -30,7 +30,7 @@ public class ContentWriter {
 	 * template file
 	 * @param templateFilename the filename of the template file
 	 * @param outputFilename the filename of the output file
-	 * @throws IOException if the template file cannot be found
+	 * @throws IOException if an I/O error occurs
 	 * @throws InvalidFileException if the template file is not a valid type
 	 */
 	public ContentWriter(String templateFilename, String outputFilename) throws IOException, InvalidFileException {
@@ -50,7 +50,7 @@ public class ContentWriter {
 	 * template file, defaults to using "output" + templateFilename as the name of the 
 	 * output file because no output filename was given
 	 * @param templateFilename the filename of the template file
-	 * @throws IOException if the template file cannot be found
+	 * @throws IOException if an I/O error occurs
 	 * @throws InvalidFileException if the template file is not a valid type
 	 */
 	public ContentWriter(String templateFilename) throws IOException, InvalidFileException {
@@ -58,10 +58,34 @@ public class ContentWriter {
 	}
 	
 	/**
+	 * gets the template filename
+	 * @return the template filename
+	 */
+	public String getTemplateFilename() {
+		return templateFilename;
+	}
+
+	/**
+	 * gets the output filename
+	 * @return the output filename
+	 */
+	public String getOutputFilename() {
+		return outputFilename;
+	}
+
+	/**
+	 * sets the output filename
+	 * @param outputFilename the output filename to set
+	 */
+	public void setOutputFilename(String outputFilename) {
+		this.outputFilename = outputFilename;
+	}
+
+	/**
 	 * generates the the output file as a copy of the template file
 	 * @param templateFilename the filename of the template file
 	 * @param outputFilename the filename of the output file
-	 * @throws IOException if the template file cannot be found
+	 * @throws IOException if an I/O error occurs
 	 */
 	private static void generateOutputFile(String templateFilename, String outputFilename) throws IOException {
 		InputStream in = new FileInputStream(new File(templateFilename));
@@ -80,8 +104,7 @@ public class ContentWriter {
 	 * @param header the name of the section where content will be inserted, must be 
 	 * unique for the file
 	 * @param content the content to insert
-	 * @throws IOException if the template (now copied to the output file) cannot be 
-	 * parsed or if the output file cannot be written after changes have been made
+	 * @throws IOException if an I/O error occurs
 	 */
 	public void writeContent(String header, String content) throws IOException {
 		//TODO: expand this method to support more than just <h1> elements
