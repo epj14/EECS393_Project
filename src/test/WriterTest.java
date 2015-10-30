@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * a class that tests Writer
  */
-public class WriterTests {
+public class WriterTest {
 
 	@Test
 	public void test() {

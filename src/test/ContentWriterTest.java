@@ -22,7 +22,7 @@ import main.StringUtil;
 /**
  * a class that tests ContentWriter
  */
-public class ContentWriterTests {
+public class ContentWriterTest {
 	
 	//the filename of the template file
 	private String templateFilename;

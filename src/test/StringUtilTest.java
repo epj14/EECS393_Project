@@ -11,7 +11,7 @@ import main.StringUtil;
 /**
  * a class that tests StringUtil
  */
-public class StringUtilTests {
+public class StringUtilTest {
 
 	/**
 	 * tests that prependOutput prepends "output" to a simple string with no File.separator

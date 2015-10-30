@@ -21,7 +21,7 @@ import main.StringUtil;
 /**
  * a class that tests PDFWriter
  */
-public class PDFWriterTests {
+public class PDFWriterTest {
 
 	//the filename of the input file
 	private String inputFilename;
