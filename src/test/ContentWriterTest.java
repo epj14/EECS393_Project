@@ -68,12 +68,30 @@ public class ContentWriterTest {
 	}
 	
 	/**
+	 * tests if the ContentWriter constructor throws an InvalidFileException if the 
+	 * given template file is an invalid file type
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 */
+	@Test(expected = InvalidFileException.class)
+	public void testContentWriter_InvalidFile() throws IOException, InvalidFileException {
+		templateFilename = "test.txt";
+		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
+		File file = folder.newFile(templateFilename);
+		fileContents = "test";
+		PrintWriter pw = new PrintWriter(file.getAbsolutePath());
+		pw.println(fileContents);
+		pw.close();
+		cw = new ContentWriter(templateFilepath);
+	}
+	
+	/**
 	 * tests if getTemplateFilename successfully gets the template filename
 	 * @throws IOException
 	 * @throws InvalidFileException
 	 */
 	@Test
-	public void testGetTemplateFilename() throws IOException, InvalidFileException {
+	public void testGetTemplateFilename() {
 		assertEquals(templateFilepath, cw.getTemplateFilename());
 	}
 	
