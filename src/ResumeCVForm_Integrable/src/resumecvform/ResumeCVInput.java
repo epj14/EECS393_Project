@@ -183,8 +183,7 @@ public class ResumeCVInput extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
     //Save Button Clicked
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-        // TODO add your handling code here:
+
         JFileChooser saveChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("HTML Files", "html", "html");
         saveChooser.setFileFilter(filter);
