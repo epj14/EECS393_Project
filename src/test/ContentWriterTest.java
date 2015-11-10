@@ -10,6 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
+import org.jsoup.select.Elements;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -123,6 +126,49 @@ public class ContentWriterTest {
 	public void testSetOutputFilename() {
 		cw.setOutputFilename("newoutputfilename.html");
 		assertEquals("newoutputfilename.html", cw.getOutputFilename());
+	}
+	
+	/**
+	 * tests if getHeaders successfully gets a single header
+	 * @throws IOException
+	 */
+	@Test
+	public void testGetHeaders() throws IOException {
+		Elements expected = new Elements();
+		expected.add(new Element(Tag.valueOf("h1"), "").appendText("heading"));
+		assertEquals(expected, cw.getHeaders());
+	}
+	
+	/**
+	 * tests if getHeaders successfully gets multiple different headers
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 */
+	@Test
+	public void testGetHeaders_Multiple() throws IOException, InvalidFileException {
+		templateFilename = "test2.html";
+		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
+		File file = folder.newFile(templateFilename);
+		fileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ "<body>\n"
+				+ " <h1>heading 1</h1>\n"
+				+ " <p></p>\n"
+				+ " <h2>heading 2</h2>\n"
+				+ " <p></p>\n"
+				+ " <h3>heading 3</h3>\n"
+				+ " <p></p>\n"
+				+ "</body>\n"
+				+ "</html>";
+		PrintWriter pw = new PrintWriter(file.getAbsolutePath());
+		pw.println(fileContents);
+		pw.close();
+		cw = new ContentWriter(templateFilepath);
+		Elements expected = new Elements();
+		expected.add(new Element(Tag.valueOf("h1"), "").appendText("heading 1"));
+		expected.add(new Element(Tag.valueOf("h2"), "").appendText("heading 2"));
+		expected.add(new Element(Tag.valueOf("h3"), "").appendText("heading 3"));
+		assertEquals(expected, cw.getHeaders());
 	}
 	
 	/**

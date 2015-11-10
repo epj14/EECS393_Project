@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * a class that is used to write user supplied content to a temporary template file
@@ -79,6 +80,17 @@ public class ContentWriter {
 	 */
 	public void setOutputFilename(String outputFilename) {
 		this.outputFilename = outputFilename;
+	}
+	
+	/**
+	 * gets all of the headers in the output file
+	 * @return all of the headers in the output file in an Elements object
+	 * @throws IOException if an I/O error occurs
+	 */
+	public Elements getHeaders() throws IOException {
+		File outputFile = new File(outputFilename);
+		Document doc = Jsoup.parse(outputFile, "UTF-8");
+		return doc.select("h1, h2, h3, h4, h5, h6");
 	}
 
 	/**
