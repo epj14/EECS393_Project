@@ -234,4 +234,43 @@ public class ContentWriterTest {
 		assertEquals(expectedFileContents, actualFileContents);
 	}
 	
+	/**
+	 * tests if writeContent successfully puts the specified content string in the p 
+	 * section directly below the specified h3 section, note that the expected file 
+	 * contents are slightly altered from the template file contents because using 
+	 * JSoup to parse the html file results in some slight alterations
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 */
+	@Test
+	public void testWriteContent_LowerHeader() throws IOException, InvalidFileException {
+		templateFilename = "test2.html";
+		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
+		File file = folder.newFile(templateFilename);
+		fileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ "<body>\n"
+				+ " <h3>heading</h3>\n"
+				+ " <p></p>\n"
+				+ "</body>\n"
+				+ "</html>";
+		PrintWriter pw = new PrintWriter(file.getAbsolutePath());
+		pw.println(fileContents);
+		pw.close();
+		cw = new ContentWriter(templateFilepath, outputFilepath);
+		cw.writeContent("heading", "this is test content");
+		String expectedFileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ " <head></head>\n"
+				+ " <body> \n"
+				+ "  <h3>heading</h3> \n"
+				+ "  <p>this is test content</p>   \n"
+				+ " </body>\n"
+				+ "</html>";
+		Scanner s = new Scanner(new File(outputFilepath));
+		String actualFileContents = s.useDelimiter("\\Z").next();
+		s.close();
+		assertEquals(expectedFileContents, actualFileContents);
+	}
+	
 }

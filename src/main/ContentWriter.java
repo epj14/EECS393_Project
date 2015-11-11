@@ -162,11 +162,9 @@ public class ContentWriter {
 	 * @throws IOException if an I/O error occurs
 	 */
 	public void writeContent(String header, String content) throws IOException {
-		//TODO: expand this method to support more than just <h1> elements
-		//TODO: if there is a problem reading or writing the output file, regenerate using the template 
 		File outputFile = new File(outputFilename);
 		Document doc = Jsoup.parse(outputFile, "UTF-8");
-		Element h = doc.select("h1:contains(" + header + ")").get(0);
+		Element h = doc.select("h1, h2, h3, h4, h5, h6:contains(" + header + ")").get(0);
 		Element p = h.nextElementSibling();
 		p.text(content);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
