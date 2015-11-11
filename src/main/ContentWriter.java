@@ -112,7 +112,7 @@ public class ContentWriter {
 	}
 	
 	/**
-	 * puts user supplied input into the output file under the specified section
+	 * writes user supplied input into the output file under the specified section
 	 * @param heading the name of the section where content will be inserted, must be 
 	 * unique for the file
 	 * @param content the content to insert
