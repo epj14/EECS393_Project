@@ -78,7 +78,11 @@ public class StringUtil {
 	 * user to format a list removed
 	 */
 	public static String stripListElement(String s) {
-		return s.substring(countTabs(s) + 2);
+		if (s.matches("\t*--.*")) {
+			return s.substring(countTabs(s) + 2);
+		} else {
+			return s;
+		}
 	}
 	
 }

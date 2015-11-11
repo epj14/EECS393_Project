@@ -87,4 +87,76 @@ public class StringUtilTest {
 		assertEquals("a.b.c.e", StringUtil.replaceExtension("a.b.c.d", "e"));
 	}
 	
+	/**
+	 * tests that countTabs returns 0 if there are no tabs in the string
+	 */
+	@Test
+	public void testCountTabs_NoTabs() {
+		assertEquals(0, StringUtil.countTabs(""));
+	}
+	
+	/**
+	 * tests that countTabs successfully counts the number of tab characters in the 
+	 * string if the tab characters are all at the start of the string, this case is 
+	 * important because it is the intended use case for lists in user format
+	 */
+	@Test
+	public void testCountTabs_TabsAtStart() {
+		assertEquals(2, StringUtil.countTabs("\t\ttest"));
+	}
+	
+	/**
+	 * tests that countTabs successfully counts the number of tab characters in the 
+	 * string if the tab characters are all separated from each other
+	 */
+	@Test
+	public void testCountTabs_SeparatedTabs() {
+		assertEquals(3, StringUtil.countTabs("\ttest\ttest\t"));
+	}
+	
+	/**
+	 * tests that countTabs successfully counts the number of tab characters in the 
+	 * string if the tab characters are all at the end of the string
+	 */
+	@Test
+	public void testCountTabs_TabsAtEnd() {
+		assertEquals(2, StringUtil.countTabs("test\t\t"));
+	}
+	
+	/**
+	 * tests that stripListElement returns the input string if that string does not 
+	 * start match the regex "\t*--.*"
+	 */
+	@Test
+	public void testStripListElement_NoFormatting() {
+		assertEquals("test", StringUtil.stripListElement("test"));
+	}
+	
+	/**
+	 * tests that stripListElement removes the "--" characters only if there are no tab 
+	 * characters
+	 */
+	@Test
+	public void testStripListElement_NoTab() {
+		assertEquals("test", StringUtil.stripListElement("--test"));
+	}
+	
+	/**
+	 * tests that stripListElements successfully removes a single tab character as well 
+	 * as the "--" characters
+	 */
+	@Test
+	public void testStripListElement_SingleTab() {
+		assertEquals("test", StringUtil.stripListElement("\t--test"));
+	}
+	
+	/**
+	 * tests that stripListElements successfully removes multiple tab characters as well 
+	 * as the "--" characters
+	 */
+	@Test
+	public void testStripListElement_MultipleTabs() {
+		assertEquals("test", StringUtil.stripListElement("\t\t--test"));
+	}
+	
 }
