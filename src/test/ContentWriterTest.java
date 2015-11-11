@@ -129,23 +129,23 @@ public class ContentWriterTest {
 	}
 	
 	/**
-	 * tests if getHeaders successfully gets a single header
+	 * tests if getHeadings successfully gets a single heading
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetHeaders() throws IOException {
+	public void testGetHeadings() throws IOException {
 		Elements expected = new Elements();
 		expected.add(new Element(Tag.valueOf("h1"), "").appendText("heading"));
-		assertEquals(expected, cw.getHeaders());
+		assertEquals(expected, cw.getHeadings());
 	}
 	
 	/**
-	 * tests if getHeaders successfully gets multiple different headers
+	 * tests if getHeadings successfully gets multiple different headings
 	 * @throws IOException
 	 * @throws InvalidFileException
 	 */
 	@Test
-	public void testGetHeaders_Multiple() throws IOException, InvalidFileException {
+	public void testGetHeadings_Multiple() throws IOException, InvalidFileException {
 		templateFilename = "test2.html";
 		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
 		File file = folder.newFile(templateFilename);
@@ -168,7 +168,7 @@ public class ContentWriterTest {
 		expected.add(new Element(Tag.valueOf("h1"), "").appendText("heading 1"));
 		expected.add(new Element(Tag.valueOf("h2"), "").appendText("heading 2"));
 		expected.add(new Element(Tag.valueOf("h3"), "").appendText("heading 3"));
-		assertEquals(expected, cw.getHeaders());
+		assertEquals(expected, cw.getHeadings());
 	}
 	
 	/**
@@ -236,14 +236,14 @@ public class ContentWriterTest {
 	
 	/**
 	 * tests if writeContent successfully puts the specified content string in the p 
-	 * section directly below the specified h3 section, note that the expected file 
+	 * section directly below the specified h3 headings, note that the expected file 
 	 * contents are slightly altered from the template file contents because using 
 	 * JSoup to parse the html file results in some slight alterations
 	 * @throws IOException
 	 * @throws InvalidFileException
 	 */
 	@Test
-	public void testWriteContent_LowerHeader() throws IOException, InvalidFileException {
+	public void testWriteContent_LowerHeading() throws IOException, InvalidFileException {
 		templateFilename = "test2.html";
 		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
 		File file = folder.newFile(templateFilename);
