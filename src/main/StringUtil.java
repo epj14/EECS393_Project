@@ -51,38 +51,4 @@ public class StringUtil {
 		return sb.toString();
 	}
 	
-	/**
-	 * counts the number of tab characters in a string
-	 * @param s the string in which to count the number of tab characters
-	 * @return the number of tab characters in s
-	 */
-	public static int countTabs(String s) {
-		int count = 0;
-		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) == '\t') {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	/**
-	 * strips the parts of a string that were used by the user to format a list, the user 
-	 * can specify list elements by including "--" before each element of the list and 
-	 * can specify list levels by including tab characters before the list element 
-	 * specification, this method should be used when converting a list in user format 
-	 * to HTML list format
-	 * @param s the string where the parts that were used by the user to format a list 
-	 * will be stripped
-	 * @return a string that is the same as s, but with the parts that were used by the 
-	 * user to format a list removed
-	 */
-	public static String stripListElement(String s) {
-		if (s.matches("\t*--.*")) {
-			return s.substring(countTabs(s) + 2);
-		} else {
-			return s;
-		}
-	}
-	
 }
