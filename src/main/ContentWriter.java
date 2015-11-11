@@ -81,17 +81,6 @@ public class ContentWriter {
 	public void setOutputFilename(String outputFilename) {
 		this.outputFilename = outputFilename;
 	}
-	
-	/**
-	 * gets all of the headers in the output file
-	 * @return all of the headers in the output file in an Elements object
-	 * @throws IOException if an I/O error occurs
-	 */
-	public Elements getHeaders() throws IOException {
-		File outputFile = new File(outputFilename);
-		Document doc = Jsoup.parse(outputFile, "UTF-8");
-		return doc.select("h1, h2, h3, h4, h5, h6");
-	}
 
 	/**
 	 * generates the the output file as a copy of the template file
@@ -109,6 +98,60 @@ public class ContentWriter {
 		}
 		in.close();
 		out.close();
+	}
+	
+	/**
+	 * gets all of the headers in the output file
+	 * @return all of the headers in the output file in an Elements object
+	 * @throws IOException if an I/O error occurs
+	 */
+	public Elements getHeaders() throws IOException {
+		File outputFile = new File(outputFilename);
+		Document doc = Jsoup.parse(outputFile, "UTF-8");
+		return doc.select("h1, h2, h3, h4, h5, h6");
+	}
+	
+	/**
+	 * converts a list from the user format to HTML list format, the user can specify 
+	 * list elements by including "--" before each element of the list and can specify 
+	 * list levels by including tab characters before the list element 
+	 * specification
+	 * @param userList the list in user format
+	 * @return an HTML list that has the same content and structure as userList
+	 */
+	public static String convertList(String userList) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<ul>");
+		String[] split = userList.split("\n");
+		int lastLevel = 0;
+		int currentLevel = 0;
+		for (int i = 0; i < split.length; i++) {
+			if (split[i].matches("\t*--.*")) {
+				String listElement = StringUtil.stripListElement(split[i]);
+				currentLevel = StringUtil.countTabs(split[i]);
+				if (currentLevel == lastLevel) {
+					sb.append("<li>" + listElement + "</li>");
+				} else if (currentLevel > lastLevel) {
+					for (int j = 0; j < (currentLevel - lastLevel); j++) {
+						sb.append("<li><ul>");
+					}
+					sb.append("<li>" + listElement + "</li>");
+				} else { //currentLevel < lastLevel
+					for (int j = 0; j < (lastLevel - currentLevel); j++) {
+						sb.append("</ul></li>");
+					}
+					sb.append("<li>" + listElement + "</li>");
+				}
+				lastLevel = currentLevel;
+			}
+		}
+		if (lastLevel > 0) {
+			for (int i = lastLevel; i > 0; i--) {
+				sb.append("</ul></li>");
+			}
+		}
+		sb.append("</ul>");
+		return sb.toString();
 	}
 	
 	/**
