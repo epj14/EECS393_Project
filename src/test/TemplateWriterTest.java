@@ -27,8 +27,6 @@ public class TemplateWriterTest {
 	private String templateFilename;
 	// the file path of the template file
 	private String templateFilepath;
-	// the ArrayList<String> used to store the content that will be added to the template file
-	private ArrayList<String> contentList;
 	// the TemplateWriter that will be used to run the tests
 	private TemplateWriter tw;
 	
@@ -40,19 +38,20 @@ public class TemplateWriterTest {
 	public TemporaryFolder folder = new TemporaryFolder();
 	
 	/**
-	 * 
+	 * initializes the test configuration by creating the file that the template will be 
+	 * written to and instantiating the TemplateWriter that will be used to run the tests
 	 * @throws IOException
 	 */
 	@Before
 	public void setUp() throws IOException {
 		templateFilename = "test.html";
 		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
-		File file = folder.newFile(templateFilename);
+		folder.newFile(templateFilename);
 		tw = new TemplateWriter(templateFilepath);
 	}
 	
 	/**
-	 * 
+	 * tests if getTemplateFilename successfully gets the template filename
 	 */
 	@Test
 	public void testGetTemplateFilename() {
@@ -60,7 +59,7 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if setTemplateFilename successfully sets the template filename
 	 */
 	@Test
 	public void testSetTemplateFilename() {
@@ -69,7 +68,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if setTemplateFilename successfully sets the template filename with the 
+	 * correct extension if no extension was specified
 	 */
 	@Test
 	public void testSetTemplateFilename_NoExtension() {
@@ -78,7 +78,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if getContentList returns an empty ArrayList<String> if no template content 
+	 * has been added to contentList
 	 */
 	@Test
 	public void testGetContentList_Empty() {
@@ -86,7 +87,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if getContentList returns an ArrayList<String> containing the formatted 
+	 * heading that was appended to contentList in the form <h1>heading</h1><p></p>
 	 * @throws NonuniqueHeadingException
 	 */
 	@Test
@@ -98,7 +100,7 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if generateTemplateFile successfully generates a file named templateFilename
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 * @throws IllegalAccessException
@@ -115,7 +117,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if generateHTML returns a formatted version of the heading string provided 
+	 * in the form <h1>heading</h1><p></p>
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 * @throws IllegalAccessException
@@ -132,7 +135,7 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if generateHTML returns null if the empty string is provided as the heading
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 * @throws IllegalAccessException
@@ -149,7 +152,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if appendTemplateContent successfully appends a formatted version of the 
+	 * headings string provided in the form <h1>heading</h1><p></p> to contentList
 	 * @throws NonuniqueHeadingException
 	 */
 	@Test
@@ -161,7 +165,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if appendTemplateContent throws a NonuniqueHeadingException if the same 
+	 * heading is attempted to be appended to contentList multiple times
 	 * @throws NonuniqueHeadingException
 	 */
 	@Test(expected = NonuniqueHeadingException.class)
@@ -171,7 +176,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if writeTemplateContent successfully writes an HTML file with the specified 
+	 * heading element included
 	 * @throws NonuniqueHeadingException
 	 * @throws IOException
 	 */
@@ -187,7 +193,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if writeTemplateContent successfully writes an HTML file with the multiple 
+	 * specified heading elements included
 	 * @throws NonuniqueHeadingException
 	 * @throws IOException
 	 */
@@ -204,7 +211,8 @@ public class TemplateWriterTest {
 	}
 	
 	/**
-	 * 
+	 * tests if writeTemplateContent successfully writes an HTML file that does not 
+	 * contain any heading elements if contentList is empty
 	 * @throws IOException
 	 */
 	@Test

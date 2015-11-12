@@ -90,8 +90,6 @@ public class ContentWriterTest {
 	
 	/**
 	 * tests if getTemplateFilename successfully gets the template filename
-	 * @throws IOException
-	 * @throws InvalidFileException
 	 */
 	@Test
 	public void testGetTemplateFilename() {
