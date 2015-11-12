@@ -15,6 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.pegdown.PegDownProcessor;
 
 /**
  * a class that is used to write user supplied content to a temporary template file
@@ -123,7 +124,8 @@ public class ContentWriter {
 		Document doc = Jsoup.parse(outputFile, "UTF-8");
 		Element h = doc.select("h1, h2, h3, h4, h5, h6:contains(" + heading + ")").get(0);
 		Element p = h.nextElementSibling();
-		p.text(content);
+		PegDownProcessor pdp = new PegDownProcessor();
+		p.text(pdp.markdownToHtml(content));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
 		bw.write(doc.toString());
 		bw.close();
