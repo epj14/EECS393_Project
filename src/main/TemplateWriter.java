@@ -24,7 +24,7 @@ public class TemplateWriter {
 	 * @param templateFilename the filename of the template file
 	 */
 	public TemplateWriter(String templateFilename) {
-		this.templateFilename = templateFilename;
+		this.templateFilename = StringUtil.replaceExtension(templateFilename, "html");
 		this.contentList = new ArrayList<String>();
 	}
 	
@@ -41,7 +41,7 @@ public class TemplateWriter {
 	 * @param templateFilename the template filename to set
 	 */
 	public void setTemplateFilename(String templateFilename) {
-		this.templateFilename = templateFilename;
+		this.templateFilename = StringUtil.replaceExtension(templateFilename, "html");
 	}
 	
 	/**
@@ -68,12 +68,12 @@ public class TemplateWriter {
 	 * @return the HTML that was generated for the template using heading, or null if 
 	 * heading was null or the empty string
 	 */
-	private String generateHTML(String heading) {
-		if (heading == null || heading.length() == 0) {
+	private static String generateHTML(String heading) {
+		if (heading.length() == 0) {
 			return null;
 		} else {
 			StringBuilder sb = new StringBuilder();
-			sb.append("<>" + heading + "<>");
+			sb.append("<h1>" + heading + "</h1>");
 			sb.append("<p></p>");
 			return sb.toString();
 		}
@@ -106,11 +106,13 @@ public class TemplateWriter {
 	public void writeTemplateContent() throws IOException {
 		File templateFile = generateTemplateFile(templateFilename);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(templateFile, false), "UTF-8"));
+		bw.write("<!DOCTYPE html>\n<html><head></head><body>");
 		for (String s : contentList) {
 			bw.write(s);
 		}
+		bw.write("</body></html>");
 		bw.close();
 		Jsoup.parse(templateFile, "UTF-8");
 	}
-
+	
 }
