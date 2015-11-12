@@ -87,4 +87,40 @@ public class StringUtilTest {
 		assertEquals("a.b.c.e", StringUtil.replaceExtension("a.b.c.d", "e"));
 	}
 	
+	/**
+	 * tests that stripP strips "<p>" from the beginning of a string and "</p>" from the 
+	 * end of a string if that string starts with "<p>" and ends with "</p>"
+	 */
+	@Test
+	public void testStripP() {
+		assertEquals("content", StringUtil.stripP("<p>content</p>"));
+	}
+	
+	/**
+	 * tests that stripP returns the given string if it does not start with "<p>" or end 
+	 * with "</p>"
+	 */
+	@Test
+	public void testStripP_NoP() {
+		assertEquals("content", StringUtil.stripP("content"));
+	}
+	
+	/**
+	 * tests that stripP returns the given string if it starts with "<p>" but does not 
+	 * end with "</p>"
+	 */
+	@Test
+	public void testStripP_Start() {
+		assertEquals("<p>content", StringUtil.stripP("<p>content"));
+	}
+	
+	/**
+	 * tests that stripP returns the given string if it ends with "</p>" but does not 
+	 * start with "<p>"
+	 */
+	@Test
+	public void testStripP_End() {
+		assertEquals("content</p>", StringUtil.stripP("content</p>"));
+	}
+	
 }

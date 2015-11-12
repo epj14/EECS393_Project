@@ -125,10 +125,10 @@ public class ContentWriter {
 		Element h = doc.select("h1, h2, h3, h4, h5, h6:contains(" + heading + ")").get(0);
 		Element p = h.nextElementSibling();
 		PegDownProcessor pdp = new PegDownProcessor();
-		p.text(pdp.markdownToHtml(content));
+		p.text(StringUtil.stripP(pdp.markdownToHtml(content)));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
 		bw.write(doc.toString());
 		bw.close();
 	}
-	
+
 }

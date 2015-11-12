@@ -51,4 +51,21 @@ public class StringUtil {
 		return sb.toString();
 	}
 	
+	/**
+	 * strips "<p>" from the beginning of a string and "</p>" from the end of a string if 
+	 * that string starts with "<p>" and ends with "</p>"
+	 * @param s the string that will have "<p>" stripped from its start and "</p>" 
+	 * stripped from its end if they are both present
+	 * @return s with "<p>" stripped from its start and "</p>" stripped from its end if 
+	 * s started with "<p>" and ended with "</p>", or s if s did not start with "<p>" or 
+	 * end with "</p>" 
+	 */
+	public static String stripP(String s) {
+		if (s.startsWith("<p>") && s.endsWith("</p>")) {
+			return s.substring(3, s.length() - 4);
+		} else {
+			return s;
+		}
+	}
+	
 }
