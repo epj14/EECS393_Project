@@ -152,6 +152,120 @@ public class TemplateWriterTest {
 	}
 	
 	/**
+	 * tests if generateHTML removes HTML headings included in the parameter heading and 
+	 * returns null if there is no content in those headings
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@Test
+	public void testGenerateHTML_Heading() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method generateHTML = TemplateWriter.class.getDeclaredMethod("generateHTML", String.class);
+		generateHTML.setAccessible(true);
+		String actualHTML = (String) generateHTML.invoke(TemplateWriter.class, "<h1></h1>");
+		String expectedHTML = null;
+		assertEquals(expectedHTML, actualHTML);
+	}
+	
+	/**
+	 * tests if generateHTML removes HTML headings included in the parameter heading and 
+	 * returns a formatted version of the heading string provided with HTML headings 
+	 * removed in the form <h1>heading with HTML headings removed</h1><p></p>
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@Test
+	public void testGenerateHTML_HeadingContent() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method generateHTML = TemplateWriter.class.getDeclaredMethod("generateHTML", String.class);
+		generateHTML.setAccessible(true);
+		String actualHTML = (String) generateHTML.invoke(TemplateWriter.class, "<h1>heading</h1>");
+		String expectedHTML = "<h1>heading</h1><p></p>";
+		assertEquals(expectedHTML, actualHTML);
+	}
+	
+	/**
+	 * tests if generateHTML removes all levels of HTML headings included in the 
+	 * parameter heading and returns null if there is no content in those headings
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@Test
+	public void testGenerateHTML_HeadingLevels() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method generateHTML = TemplateWriter.class.getDeclaredMethod("generateHTML", String.class);
+		generateHTML.setAccessible(true);
+		String actualHTML = (String) generateHTML.invoke(TemplateWriter.class, "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>");
+		String expectedHTML = null;
+		assertEquals(expectedHTML, actualHTML);
+	}
+	
+	/**
+	 * tests if generateHTML removes all HTML headings included in the parameter heading 
+	 * and returns a formatted version of the heading string provided with HTML headings 
+	 * removed in the form <h1>heading with HTML headings removed</h1><p></p>
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@Test
+	public void testGenerateHTML_MultipleHeadings() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method generateHTML = TemplateWriter.class.getDeclaredMethod("generateHTML", String.class);
+		generateHTML.setAccessible(true);
+		String actualHTML = (String) generateHTML.invoke(TemplateWriter.class, "<h1>heading 1</h1><h1>heading 2</h1>");
+		String expectedHTML = "<h1>heading 1heading 2</h1><p></p>";
+		assertEquals(expectedHTML, actualHTML);
+	}
+	
+	/**
+	 * tests if generateHTML removes unbalanced HTML headings included in the parameter 
+	 * heading and returns a formatted version of the heading string provided with 
+	 * unbalanced HTML headings removed in the form <h1>heading with unbalanced HTML 
+	 * headings removed</h1><p></p>
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@Test
+	public void testGenerateHTML_UnbalancedHeading() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method generateHTML = TemplateWriter.class.getDeclaredMethod("generateHTML", String.class);
+		generateHTML.setAccessible(true);
+		String actualHTML = (String) generateHTML.invoke(TemplateWriter.class, "<h1>heading");
+		String expectedHTML = "<h1>heading</h1><p></p>";
+		assertEquals(expectedHTML, actualHTML);
+	}
+	
+	/**
+	 * tests if generateHTML removes all unbalanced HTML headings included in the 
+	 * parameter heading and returns a formatted version of the heading string provided 
+	 * with unbalanced HTML headings removed in the form <h1>heading with unbalanced 
+	 * HTML headings removed</h1><p></p>
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	@Test
+	public void testGenerateHTML_MultipleUnbalancedHeadings() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method generateHTML = TemplateWriter.class.getDeclaredMethod("generateHTML", String.class);
+		generateHTML.setAccessible(true);
+		String actualHTML = (String) generateHTML.invoke(TemplateWriter.class, "<h1><h2>heading");
+		String expectedHTML = "<h1>heading</h1><p></p>";
+		assertEquals(expectedHTML, actualHTML);
+	}
+	
+	/**
 	 * tests if appendTemplateContent successfully appends a formatted version of the 
 	 * headings string provided in the form <h1>heading</h1><p></p> to contentList
 	 * @throws NonuniqueHeadingException

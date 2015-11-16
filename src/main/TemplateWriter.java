@@ -69,6 +69,7 @@ public class TemplateWriter {
 	 * heading was null or the empty string
 	 */
 	private static String generateHTML(String heading) {
+		heading = StringUtil.removeH(heading);
 		if (heading.length() == 0) {
 			return null;
 		} else {
