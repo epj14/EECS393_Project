@@ -124,6 +124,7 @@ public class ContentWriter {
 		Document doc = Jsoup.parse(outputFile, "UTF-8");
 		Element h = doc.select("h1, h2, h3, h4, h5, h6:contains(" + heading + ")").get(0);
 		Element p = h.nextElementSibling();
+		content = StringUtil.removeH(content);
 		PegDownProcessor pdp = new PegDownProcessor();
 		p.text(StringUtil.stripP(pdp.markdownToHtml(content)));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));

@@ -68,4 +68,14 @@ public class StringUtil {
 		}
 	}
 	
+	/**
+	 * removes any HTML headings from a string, even if the headings are unbalanced
+	 * @param s the string that will have any HTML headings removed from it
+	 * @return s with any HTML headings removed from it
+	 */
+	public static String removeH(String s) {
+		s = s.replaceAll("<h[1-6]>", "");
+		return s.replaceAll("</h[1-6]>", "");
+	}
+	
 }

@@ -123,4 +123,53 @@ public class StringUtilTest {
 		assertEquals("content</p>", StringUtil.stripP("content</p>"));
 	}
 	
+	/**
+	 * tests that removeH removes HTML headings
+	 */
+	@Test
+	public void testRemoveH() {
+		assertEquals("", StringUtil.removeH("<h1></h1>"));
+	}
+	
+	/**
+	 * tests that removeH removes HTML headings and leaves content untouched
+	 */
+	@Test
+	public void testRemoveH_Content() {
+		assertEquals("content", StringUtil.removeH("<h1>content</h1>"));
+	}
+	
+	/**
+	 * tests that removeH removes all levels of HTML headings
+	 */
+	@Test
+	public void testRemoveH_HeadingLevels() {
+		assertEquals("", StringUtil.removeH("<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"));
+	}
+	
+	/**
+	 * tests that removeH removes multiple HTML headings and leaves the content from each 
+	 * heading untouched
+	 */
+	@Test
+	public void testRemoveH_Multiple() {
+		assertEquals("content 1content 2", StringUtil.removeH("<h1>content 1</h1><h1>content 2</h1>"));
+	}
+	
+	/**
+	 * tests that removeH removes unbalanced HTML headings
+	 */
+	@Test
+	public void testRemoveH_Unbalanced() {
+		assertEquals("content", StringUtil.removeH("<h1>content"));
+	}
+	
+	/**
+	 * tests that removeH removes multiple unbalanced HTML headings
+	 */
+	@Test
+	public void testRemoveH_MultipleUnbalanced() {
+		assertEquals("content", StringUtil.removeH("<h1><h2>content"));
+	}
+	
 }
