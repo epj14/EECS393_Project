@@ -44,7 +44,6 @@ public class ResumeCVHelp extends javax.swing.JFrame {
         jTextPane2 = new javax.swing.JTextPane();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Help Menu");
 
         jList1.setModel(new javax.swing.AbstractListModel() {

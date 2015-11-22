@@ -174,31 +174,22 @@ public class ResumeCVGUI extends javax.swing.JFrame {
         outputChooser.setFileFilter(filter);
         int outputReturn = outputChooser.showSaveDialog(ResumeCVGUI.this);
         int returnValue = templateChooser.showOpenDialog(ResumeCVGUI.this);
-//        if (returnValue == JFileChooser.APPROVE_OPTION && outputReturn == JFileChooser.APPROVE_OPTION) {
-//            //System.out.println("Okay genius, parse the template");
+        if (returnValue == JFileChooser.APPROVE_OPTION && outputReturn == JFileChooser.APPROVE_OPTION) {
             try {
-            //String templateName = templateChooser.getSelectedFile().getName();
             String templatePath = templateChooser.getSelectedFile().getAbsolutePath();
-            //String outputName = outputChooser.getSelectedFile().getName();
             String outputPath = outputChooser.getSelectedFile().getAbsolutePath();
-            //ContentWriter cw = new ContentWriter(templatePath, outputPath);
-//            
-//            //change this so the text can change.  
-//            cw.writeContent("My First Heading", "My first paragraph");
-              File outputFile = outputChooser.getSelectedFile();
-//            Document outputDoc = Jsoup.parse(outputFile, "UTF-8");  
-//            Elements htags = outputDoc.select("h1");
-              String resumeText = "Integrate HTML Stuff";
-              String fileName = outputFile.getAbsolutePath();
-              String inputArgs[] = {resumeText, fileName};
-             ResumeCVInput.main(inputArgs);
+              String inputArgs[] = {templatePath, outputPath};
+             ResumeCVInputV2.main(inputArgs);
             }
             catch (Exception e) {
                 JPanel panel = new JPanel();
                 JOptionPane.showMessageDialog(panel, "An error occured due to a problem parsing the template.  Please try again!", "Error!", JOptionPane.INFORMATION_MESSAGE);
                 e.printStackTrace();
             }
-            
+           
+        }  else if (returnValue == JFileChooser.CANCEL_OPTION || outputReturn == JFileChooser.CANCEL_OPTION) {
+            return;
+        } 
         
     }//GEN-LAST:event_jButton1MouseClicked
     //open an existing resume

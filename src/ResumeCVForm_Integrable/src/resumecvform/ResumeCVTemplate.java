@@ -64,7 +64,6 @@ public class ResumeCVTemplate extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Template Creator");
 
         jTextPane1.setText("Help Pane");

@@ -13,8 +13,12 @@ import java.awt.Component;
 import javax.swing.*;
 import java.io.*;
 import java.lang.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 public class ResumeCVInputV2 extends javax.swing.JFrame {
 
     /**
@@ -27,18 +31,43 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JPanel jPanel2;
+    
     boolean isSaved = false;
     private String filePath = "";
     private String args[] = {};
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jButton4;
+    private String templatePath;
+    private String outputPath;
     //private javax.swing.JScrollPane jScrollPane3;
     //private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel jPanel1;
-    public ResumeCVInputV2() {
+    private ContentWriter cw;
+    private PDFWriter pdfw;
+    public ResumeCVInputV2(String templatePath, String outputPath) throws IOException, InvalidFileException {
         initComponents();
+        this.templatePath = templatePath;
+        this.outputPath = outputPath;
+        cw = new ContentWriter(templatePath, outputPath);
+        this.produceText();
     }
-
+    public void produceText() throws IOException, InvalidFileException {
+        Elements headings = cw.getHeadings();
+        ArrayList<String> headingList = new ArrayList<>();
+        for (Element e : headings) {
+            headingList.add(e.text());
+        }
+        
+        for (String s : headingList){
+            JTextField field = new JTextField();
+            JLabel label = new JLabel();
+            label.setText(s);
+            jPanel2.add(label);
+            jPanel2.add(field);
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,10 +85,12 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Resume Input");
 
+        jTextPane1.setEditable(false);
         jTextPane1.setText("Help Pane");
         jScrollPane2.setViewportView(jTextPane1);
 
@@ -95,15 +126,26 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 375, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 375, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,6 +218,7 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         JFileChooser saveChooser = new JFileChooser();
         int returnValue = saveChooser.showSaveDialog(ResumeCVInputV2.this);
         String saveName = saveChooser.getSelectedFile().getName();
+        jTextField1.setText(saveName);
         if (returnValue != JFileChooser.APPROVE_OPTION) {
             JPanel panel = new JPanel();
            JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
@@ -184,22 +227,43 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         jTextField1.setText(saveName);
         File saveFile = new File(saveChooser.getSelectedFile() + ".html");
         //String contents = jTextArea1.getText();
-        StringBuilder contentBuilder = new StringBuilder();
+        ArrayList<String> contentList = new ArrayList<>();
+        ArrayList<String> headingList = new ArrayList<>();
         FileWriter fw;
-        for (Component c : jPanel1.getComponents()){
-            if (c instanceof JTextArea) {
-               contentBuilder.append(((JTextArea)c).getText() + "\n");
-        }
-        }   
-        String contents = contentBuilder.toString();
-            try {
-                fw = new FileWriter(saveFile);
-                fw.write(contents);
-                //Evan's class will help you here.
-            } catch (IOException ex) {
-                JPanel panel = new JPanel();
-                JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
+//        for (Component c : jPanel1.getComponents()){
+//            if (c instanceof JTextArea) {
+//               contentBuilder.append(((JTextArea)c).getText() + "\n");
+//        }
+//        }   
+        for (Component c : jPanel2.getComponents()) {
+            if (c instanceof JTextField) {
+                contentList.add(((JTextField)c).getText() + "\n");
             }
+            if (c instanceof JLabel){
+                headingList.add(((JLabel)c).getText() + "\n");
+            }
+        }
+        
+        Iterator<String> it1 = contentList.iterator();
+        Iterator<String> it2 = headingList.iterator();
+        try{
+        while(it1.hasNext() && it2.hasNext()) {
+            cw.writeContent(it1.next(), it2.next());
+        }
+        }
+        catch(Exception e) {
+             JPanel panel = new JPanel();
+             JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+//        String contents = "";
+//            try {
+//                fw = new FileWriter(saveFile);
+//                fw.write(contents);
+//
+//            } catch (IOException ex) {
+//                JPanel panel = new JPanel();
+//                JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
+//            }
         
         }
         
@@ -210,7 +274,25 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         if (isSaved == false){
             JPanel panel = new JPanel();
             JOptionPane.showMessageDialog(panel, "File must be saved to output.  Please try again!", "Output Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
+        JFileChooser pdfChooser = new JFileChooser();
+        int returnValue = pdfChooser.showSaveDialog(ResumeCVInputV2.this);
+        if (returnValue == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
+        if (returnValue == JFileChooser.APPROVE_OPTION){
+            try {
+            pdfw = new PDFWriter(jTextField1.getText(), pdfChooser.getSelectedFile().getAbsolutePath());
+            pdfw.writePDF();
+            }
+            catch (Exception e) {
+               JPanel panel = new JPanel();
+               JOptionPane.showMessageDialog(panel, "The file could not be output.  Please try again!", "Output Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        //pdfw = new PDFWriter(jTextField1.getText(), )
+        
     }//GEN-LAST:event_jButton4MouseClicked
                                 
     /**
@@ -244,7 +326,13 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ResumeCVInputV2().setVisible(true);
+               try{
+                new ResumeCVInputV2(args[0], args[1]).setVisible(true);
+               }
+               catch(Exception e) {
+                   JPanel panel = new JPanel();
+                   JOptionPane.showMessageDialog(panel, "Your chosen file names are not valid.  Please try again!", "Error", JOptionPane.INFORMATION_MESSAGE);
+               }
             }
         });
     }
@@ -255,6 +343,7 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextPane jTextPane1;

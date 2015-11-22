@@ -72,7 +72,6 @@ public class ResumeCVInput extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Resume Input");
 
         jTextArea1.setColumns(20);
