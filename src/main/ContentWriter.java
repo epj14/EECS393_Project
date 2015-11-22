@@ -36,7 +36,7 @@ public class ContentWriter {
 	 * @throws InvalidFileException if the template file is not a valid type
 	 */
 	public ContentWriter(String templateFilename, String outputFilename) throws IOException, InvalidFileException {
-		if (Files.probeContentType(Paths.get(templateFilename)).equals("text/html")) {
+		if (Files.probeContentType(Paths.get(templateFilename)) != null && Files.probeContentType(Paths.get(templateFilename)).equals("text/html")) {
 			this.templateFilename = templateFilename;
 			this.outputFilename = outputFilename;
 			generateOutputFile(templateFilename, outputFilename);
