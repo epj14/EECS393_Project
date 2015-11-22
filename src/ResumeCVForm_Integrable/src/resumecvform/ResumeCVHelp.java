@@ -48,14 +48,14 @@ public class ResumeCVHelp extends javax.swing.JFrame {
         setTitle("Help Menu");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Creating a New Resume", "Creating a Custom Template", "Opening an Existing Resume", "Opening an Existing Template", "Sharing a File from the Main Menu", "Sharing a File while Working", "Saving a File", "Generating a Resume" };
+            String[] strings = { "Creating a New Resume", "Creating a Custom Template", "Opening an Existing Resume", "Opening an Existing Template", "Sharing a File from the Main Menu", "Sharing a File while Working", "Saving a File", "Generating a Resume", "HTML Formatting Reference" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jList1);
 
-        jTextPane1.setText("Please choose the item you would like help with from the list to the right. Help will be displayed below.");
+        jTextPane1.setText("Please choose the item with which you would like help.  Click Get Help to display the help below.");
         jScrollPane3.setViewportView(jTextPane1);
 
         jScrollPane1.setViewportView(jTextPane2);
@@ -173,6 +173,10 @@ public class ResumeCVHelp extends javax.swing.JFrame {
                     + "them to the user if found.  If no errors are found, the "
                     + "file will be output to a PDF file and the user will be"
                     + "asked to name and save the file.");
+        }
+        
+        if (selectedItem == "HTML Formatting Reference"){
+            ;
         }
         
         if (selectedItem == null) {
