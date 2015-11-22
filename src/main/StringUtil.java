@@ -1,6 +1,7 @@
 package main;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 /**
  * a class that contains string utility methods
@@ -16,7 +17,8 @@ public class StringUtil {
 	 */
 	public static String prependOutput(String s) {
 		StringBuilder sb = new StringBuilder();
-		String[] split = s.split(File.separator);
+		String fileSeparator = Pattern.quote(System.getProperty("file.separator"));
+		String[] split = s.split(fileSeparator);
 		for (int i = 0; i < split.length - 1; i++) {
 			sb.append(split[i] + File.separator);
 		}
