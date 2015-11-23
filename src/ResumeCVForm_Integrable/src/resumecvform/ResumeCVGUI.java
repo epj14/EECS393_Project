@@ -178,8 +178,8 @@ public class ResumeCVGUI extends javax.swing.JFrame {
             try {
             String templatePath = templateChooser.getSelectedFile().getAbsolutePath();
             String outputPath = outputChooser.getSelectedFile().getAbsolutePath();
-              String inputArgs[] = {templatePath, outputPath};
-             ResumeCVInputV2.main(inputArgs);
+            String inputArgs[] = {templatePath, outputPath};
+            ResumeCVInputV2.main(inputArgs);
             }
             catch (Exception e) {
                 JPanel panel = new JPanel();
@@ -201,7 +201,12 @@ public class ResumeCVGUI extends javax.swing.JFrame {
         resumeChooser.setDialogTitle("Choose a resume file to open.");
         int returnValue = resumeChooser.showOpenDialog(ResumeCVGUI.this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            ResumeCVInput.main(args);
+            String fileName = resumeChooser.getSelectedFile().getAbsolutePath();
+            String[] openArgs = {fileName, fileName};
+            ResumeCVInputV2.main(openArgs);
+        } else if (returnValue == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
             //System.out.println("Ok, now display the resume and its fields.");
 //            try{
 //            File resumeFile = resumeChooser.getSelectedFile();
@@ -215,7 +220,6 @@ public class ResumeCVGUI extends javax.swing.JFrame {
 //            catch (Exception e){
 //                e.printStackTrace();
 //            }
-        }
     }//GEN-LAST:event_jButton3MouseClicked
     //open an existing template
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
@@ -238,7 +242,7 @@ public class ResumeCVGUI extends javax.swing.JFrame {
         int returnValue = shareChooser.showOpenDialog(ResumeCVGUI.this);
         shareChooser.setDialogTitle("Choose the file you wish to share.");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            System.out.println("Okay, now ask for necessary info");
+            //System.out.println("Okay, now ask for necessary info");
             String fileString = shareChooser.getSelectedFile().getAbsolutePath();
             String args2[] = {fileString};
             ResumeCVShareForm.main(args2);

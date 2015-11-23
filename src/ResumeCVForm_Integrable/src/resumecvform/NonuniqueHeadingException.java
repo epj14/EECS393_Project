@@ -1,5 +1,4 @@
-package main;
-
+package resumecvform;
 /**
  * a class that defines an exception to be used when a heading in a template is not unique
  */

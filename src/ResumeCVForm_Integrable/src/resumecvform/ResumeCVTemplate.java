@@ -39,6 +39,7 @@ public class ResumeCVTemplate extends javax.swing.JFrame {
     private JScrollPane jScrollPane5;
     private JTextArea jTextArea2;
     private JScrollPane jScrollPane6;
+    private ContentWriter cw;
     public ResumeCVTemplate() {
         initComponents();
         
@@ -171,6 +172,7 @@ public class ResumeCVTemplate extends javax.swing.JFrame {
                 + "then choose add to place them in the box to the right. "
                 + "You can also add your own fields in the right box.  However, "
                 + "please limit them to one per line.  Use the cmd/ctrl key and left click to pick multiple elemements from the list at once."
+                + "Click the add button to add fields from the list into the box."
                 + "Click share to open the share dialog, click save to save the file.");
     }//GEN-LAST:event_jButton3MouseClicked
 //Clicked Save Button
@@ -181,8 +183,23 @@ public class ResumeCVTemplate extends javax.swing.JFrame {
         if (returnValue != JFileChooser.APPROVE_OPTION) {
             JPanel panel = new JPanel();
            JOptionPane.showMessageDialog(panel, "File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
+           return;
         }
-        isSaved = false;
+        if (returnValue == JFileChooser.CANCEL_OPTION){
+            return;
+        }
+        String[] lines = jTextArea2.getText().split("\\n");
+        try{
+        cw = new ContentWriter(saveChooser.getSelectedFile().getAbsolutePath(), saveChooser.getSelectedFile().getAbsolutePath()); 
+        for (String s : lines){
+            cw.writeContent(s, "");
+        }
+        }
+        catch(Exception e) {
+            JPanel panel = new JPanel();
+            JOptionPane.showMessageDialog(panel,"File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        isSaved = true;
     }//GEN-LAST:event_jButton1MouseClicked
     //Share Button Clicked
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked

@@ -50,23 +50,31 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         this.templatePath = templatePath;
         this.outputPath = outputPath;
         cw = new ContentWriter(templatePath, outputPath);
-        this.produceText();
+        //this.createOutput();
+        //this.produceText();
     }
+
+    
     public void produceText() throws IOException, InvalidFileException {
+        cw = new ContentWriter(templatePath, outputPath);
         Elements headings = cw.getHeadings();
         ArrayList<String> headingList = new ArrayList<>();
         for (Element e : headings) {
             headingList.add(e.text());
         }
-        
+        int index = 0;
         for (String s : headingList){
             JTextField field = new JTextField();
             JLabel label = new JLabel();
             label.setText(s);
-            jPanel2.add(label);
-            jPanel2.add(field);
+            jPanel2.add(label, index);
+            jPanel2.revalidate();
+            index = index + 1;
+            jPanel2.add(field, index);
+            jPanel2.revalidate();
+            index = index + 1;
         }
-        
+        jPanel2.revalidate();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,7 +83,7 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws IOException, InvalidFileException {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
@@ -126,6 +134,8 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -155,7 +165,7 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButton2)
@@ -247,6 +257,7 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
         Iterator<String> it1 = contentList.iterator();
         Iterator<String> it2 = headingList.iterator();
         try{
+        cw = new ContentWriter(templatePath, saveName);
         while(it1.hasNext() && it2.hasNext()) {
             cw.writeContent(it1.next(), it2.next());
         }
@@ -330,8 +341,7 @@ public class ResumeCVInputV2 extends javax.swing.JFrame {
                 new ResumeCVInputV2(args[0], args[1]).setVisible(true);
                }
                catch(Exception e) {
-                   JPanel panel = new JPanel();
-                   JOptionPane.showMessageDialog(panel, "Your chosen file names are not valid.  Please try again!", "Error", JOptionPane.INFORMATION_MESSAGE);
+                  e.printStackTrace();
                }
             }
         });
