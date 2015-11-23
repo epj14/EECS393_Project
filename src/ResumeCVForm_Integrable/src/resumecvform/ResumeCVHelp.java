@@ -174,8 +174,10 @@ public class ResumeCVHelp extends javax.swing.JFrame {
                     + "asked to name and save the file.");
         }
         
-        if (selectedItem == "HTML Formatting Reference"){
-            ;
+        if (selectedItem == "Markdown in your resume"){
+            jTextPane2.setText("To create bullet lists in your resume"
+                    + "Indent under your list header, then preface it with either an asterisk"
+                    + "or a number.  When parsed, it will produce a bulleted or numerical list.");
         }
         
         if (selectedItem == null) {

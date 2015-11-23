@@ -9,6 +9,7 @@ package resumecvform;
  *
  * @author Sean
  */
+import java.io.File;
 import javax.swing.*;
 import java.util.*;
 public class ResumeCVTemplate extends javax.swing.JFrame {
@@ -189,8 +190,9 @@ public class ResumeCVTemplate extends javax.swing.JFrame {
             return;
         }
         String[] lines = jTextArea2.getText().split("\\n");
+        File saveFile = new File(saveChooser.getSelectedFile().getAbsolutePath());
         try{
-        cw = new ContentWriter(saveChooser.getSelectedFile().getAbsolutePath(), saveChooser.getSelectedFile().getAbsolutePath()); 
+        cw = new ContentWriter(saveFile.getAbsolutePath(), saveFile.getAbsolutePath()); 
         for (String s : lines){
             cw.writeContent(s, "");
         }
@@ -198,6 +200,7 @@ public class ResumeCVTemplate extends javax.swing.JFrame {
         catch(Exception e) {
             JPanel panel = new JPanel();
             JOptionPane.showMessageDialog(panel,"File could not be saved, try again", "Save Error", JOptionPane.INFORMATION_MESSAGE);
+            e.printStackTrace();
         }
         isSaved = true;
     }//GEN-LAST:event_jButton1MouseClicked

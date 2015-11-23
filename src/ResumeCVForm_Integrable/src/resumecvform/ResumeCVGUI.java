@@ -132,9 +132,9 @@ public class ResumeCVGUI extends javax.swing.JFrame {
                                     .addComponent(jButton6)
                                     .addComponent(jButton5)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
+                        .addGap(71, 71, 71)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +179,7 @@ public class ResumeCVGUI extends javax.swing.JFrame {
             String templatePath = templateChooser.getSelectedFile().getAbsolutePath();
             String outputPath = outputChooser.getSelectedFile().getAbsolutePath();
             String inputArgs[] = {templatePath, outputPath};
-            ResumeCVInputV2.main(inputArgs);
+            ResumeCVInputNewest.main(inputArgs);
             }
             catch (Exception e) {
                 JPanel panel = new JPanel();
@@ -203,7 +203,7 @@ public class ResumeCVGUI extends javax.swing.JFrame {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             String fileName = resumeChooser.getSelectedFile().getAbsolutePath();
             String[] openArgs = {fileName, fileName};
-            ResumeCVInputV2.main(openArgs);
+            ResumeCVInputNewest.main(openArgs);
         } else if (returnValue == JFileChooser.CANCEL_OPTION) {
             return;
         }
@@ -215,7 +215,7 @@ public class ResumeCVGUI extends javax.swing.JFrame {
 //            String resumeText = htags.text();
 //            String fileName = resumeChooser.getSelectedFile().getAbsolutePath();
 //            String inputArgs[] = {resumeText, fileName};
-//            ResumeCVInput.main(inputArgs);
+//            ResumeCVInputNewest.main(inputArgs);
 //        }
 //            catch (Exception e){
 //                e.printStackTrace();
