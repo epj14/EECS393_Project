@@ -113,6 +113,30 @@ public class ContentWriter {
 	}
 	
 	/**
+	 * writes user supplied input into the output file under the first p section in the 
+	 * document, this section is meant to contain general information about the person 
+	 * who is authoring the document (for example: contact information)
+	 * @param content the content to insert
+	 * @throws IOException if an I/O error occurs
+	 */
+	public void writeInitialContent(String content) throws IOException {
+		File outputFile = new File(outputFilename);
+		Document doc = Jsoup.parse(outputFile, "UTF-8");
+		Element b = doc.select("body").get(0);
+		Element p = b.child(0);
+		if (!(p.tag().getName().equals("p"))) {
+			b.prependElement("p");
+			p = b.child(0);
+		}
+		content = StringUtil.removeH(content);
+		PegDownProcessor pdp = new PegDownProcessor();
+		p.text(StringUtil.stripP(pdp.markdownToHtml(content)));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
+		bw.write(doc.toString());
+		bw.close();
+	}
+	
+	/**
 	 * writes user supplied input into the output file under the specified section
 	 * @param heading the name of the section where content will be inserted, must be 
 	 * unique for the file

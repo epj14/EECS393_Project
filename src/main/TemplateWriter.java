@@ -107,7 +107,7 @@ public class TemplateWriter {
 	public void writeTemplateContent() throws IOException {
 		File templateFile = generateTemplateFile(templateFilename);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(templateFile, false), "UTF-8"));
-		bw.write("<!DOCTYPE html>\n<html><head></head><body>");
+		bw.write("<!DOCTYPE html>\n<html><head></head><body><p></p>");
 		for (String s : contentList) {
 			bw.write(s);
 		}

@@ -60,6 +60,7 @@ public class ContentWriterTest {
 		fileContents = "<!doctype html>\n"
 				+ "<html>\n"
 				+ "<body>\n"
+				+ "<p></p>\n"
 				+ " <h1>heading</h1>\n"
 				+ " <p></p>\n"
 				+ "</body>\n"
@@ -150,6 +151,7 @@ public class ContentWriterTest {
 		fileContents = "<!doctype html>\n"
 				+ "<html>\n"
 				+ "<body>\n"
+				+ "<p></p>\n"
 				+ " <h1>heading 1</h1>\n"
 				+ " <p></p>\n"
 				+ " <h2>heading 2</h2>\n"
@@ -167,6 +169,74 @@ public class ContentWriterTest {
 		expected.add(new Element(Tag.valueOf("h2"), "").appendText("heading 2"));
 		expected.add(new Element(Tag.valueOf("h3"), "").appendText("heading 3"));
 		assertEquals(expected, cw.getHeadings());
+	}
+	
+	/**
+	 * tests if writeInitialContent successfully puts the specified content string in 
+	 * the p section directly below the first body section, note that the expected file 
+	 * contents are slightly altered from the template file contents because using JSoup 
+	 * to parse the HTML file results in some slight alterations
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 */
+	@Test
+	public void testWriteInitialContent() throws IOException, InvalidFileException {
+		cw = new ContentWriter(templateFilepath, outputFilepath);
+		cw.writeInitialContent("this is test content");
+		String expectedFileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ " <head></head>\n"
+				+ " <body> \n"
+				+ "  <p>this is test content</p> \n"
+				+ "  <h1>heading</h1> \n"
+				+ "  <p></p>   \n"
+				+ " </body>\n"
+				+ "</html>";
+		Scanner s = new Scanner(new File(outputFilepath));
+		String actualFileContents = s.useDelimiter("\\Z").next();
+		s.close();
+		assertEquals(expectedFileContents, actualFileContents);
+	}
+	
+	/**
+	 * tests if writeInitialContent successfully creates a p section directly below the 
+	 * first body section and puts the specified content string in that section if the 
+	 * template does not contain a p section directly below the first body section, note 
+	 * that the expected file contents are slightly altered from the template file contents
+	 * because using JSoup to parse the HTML file results in some slight alterations
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 */
+	@Test
+	public void testWriteInitialContent_MissingFromTemplate() throws IOException, InvalidFileException {
+		templateFilename = "test2.html";
+		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
+		File file = folder.newFile(templateFilename);
+		fileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ "<body>\n"
+				+ " <h1>heading</h1>\n"
+				+ " <p></p>\n"
+				+ "</body>\n"
+				+ "</html>";
+		PrintWriter pw = new PrintWriter(file.getAbsolutePath());
+		pw.println(fileContents);
+		pw.close();
+		cw = new ContentWriter(templateFilepath, outputFilepath);
+		cw.writeInitialContent("this is test content");
+		String expectedFileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ " <head></head>\n"
+				+ " <body>\n"
+				+ "  <p>this is test content</p> \n"
+				+ "  <h1>heading</h1> \n"
+				+ "  <p></p>   \n"
+				+ " </body>\n"
+				+ "</html>";
+		Scanner s = new Scanner(new File(outputFilepath));
+		String actualFileContents = s.useDelimiter("\\Z").next();
+		s.close();
+		assertEquals(expectedFileContents, actualFileContents);
 	}
 	
 	/**
@@ -210,7 +280,7 @@ public class ContentWriterTest {
 	 * tests if writeContent successfully puts the specified content string in the p 
 	 * section directly below the specified h1 section, note that the expected file 
 	 * contents are slightly altered from the template file contents because using 
-	 * JSoup to parse the html file results in some slight alterations
+	 * JSoup to parse the HTML file results in some slight alterations
 	 * @throws IOException
 	 * @throws InvalidFileException
 	 */
@@ -222,6 +292,7 @@ public class ContentWriterTest {
 				+ "<html>\n"
 				+ " <head></head>\n"
 				+ " <body> \n"
+				+ "  <p></p> \n"
 				+ "  <h1>heading</h1> \n"
 				+ "  <p>this is test content</p>   \n"
 				+ " </body>\n"
@@ -236,7 +307,7 @@ public class ContentWriterTest {
 	 * tests if writeContent successfully puts the specified content string in the p 
 	 * section directly below the specified h3 headings, note that the expected file 
 	 * contents are slightly altered from the template file contents because using 
-	 * JSoup to parse the html file results in some slight alterations
+	 * JSoup to parse the HTML file results in some slight alterations
 	 * @throws IOException
 	 * @throws InvalidFileException
 	 */
@@ -248,6 +319,7 @@ public class ContentWriterTest {
 		fileContents = "<!doctype html>\n"
 				+ "<html>\n"
 				+ "<body>\n"
+				+ "<p></p>\n"
 				+ " <h3>heading</h3>\n"
 				+ " <p></p>\n"
 				+ "</body>\n"
@@ -261,6 +333,7 @@ public class ContentWriterTest {
 				+ "<html>\n"
 				+ " <head></head>\n"
 				+ " <body> \n"
+				+ "  <p></p> \n"
 				+ "  <h3>heading</h3> \n"
 				+ "  <p>this is test content</p>   \n"
 				+ " </body>\n"
@@ -270,5 +343,5 @@ public class ContentWriterTest {
 		s.close();
 		assertEquals(expectedFileContents, actualFileContents);
 	}
-	
+
 }

@@ -299,7 +299,7 @@ public class TemplateWriterTest {
 	public void testWriteTemplateContent() throws NonuniqueHeadingException, IOException {
 		tw.appendTemplateContent("heading");
 		tw.writeTemplateContent();
-		String expectedFileContents = "<!DOCTYPE html>\n<html><head></head><body><h1>heading</h1><p></p></body></html>";
+		String expectedFileContents = "<!DOCTYPE html>\n<html><head></head><body><p></p><h1>heading</h1><p></p></body></html>";
 		Scanner s = new Scanner(new File(templateFilepath));
 		String actualFileContents = s.useDelimiter("\\Z").next();
 		s.close();
@@ -317,7 +317,7 @@ public class TemplateWriterTest {
 		tw.appendTemplateContent("heading 1");
 		tw.appendTemplateContent("heading 2");
 		tw.writeTemplateContent();
-		String expectedFileContents = "<!DOCTYPE html>\n<html><head></head><body><h1>heading 1</h1><p></p><h1>heading 2</h1><p></p></body></html>";
+		String expectedFileContents = "<!DOCTYPE html>\n<html><head></head><body><p></p><h1>heading 1</h1><p></p><h1>heading 2</h1><p></p></body></html>";
 		Scanner s = new Scanner(new File(templateFilepath));
 		String actualFileContents = s.useDelimiter("\\Z").next();
 		s.close();
@@ -332,7 +332,7 @@ public class TemplateWriterTest {
 	@Test
 	public void testWriteTemplateContent_NoContent() throws IOException {
 		tw.writeTemplateContent();
-		String expectedFileContents = "<!DOCTYPE html>\n<html><head></head><body></body></html>";
+		String expectedFileContents = "<!DOCTYPE html>\n<html><head></head><body><p></p></body></html>";
 		Scanner s = new Scanner(new File(templateFilepath));
 		String actualFileContents = s.useDelimiter("\\Z").next();
 		s.close();
