@@ -25,6 +25,12 @@ import java.awt.FlowLayout;
 
 public class GUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+	
+	private ContentWriter cw;
+	private TemplateWriter tw;
+	private PDFWriter pw;
+	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPanel panel_3;
