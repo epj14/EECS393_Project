@@ -36,6 +36,8 @@ public class GUI extends JFrame {
 	private JPanel panel_3;
 	private JPanel panel_5;
 	private int headingYPos = 0;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -185,7 +187,7 @@ public class GUI extends JFrame {
 		btnSelectFile.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String filePath = createFileChooser();
+				String filePath = createFileChooser(false);
 				textField.setText(filePath);
 			}
 		});
@@ -204,12 +206,32 @@ public class GUI extends JFrame {
 		CreateDocument_2.add(panel_2, BorderLayout.SOUTH);
 		
 		JButton btnBack_1 = new JButton("Back");
+		btnBack_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cl = (CardLayout)(contentPane.getLayout());
+				cl.show(contentPane, "CreateDocument_1");
+			}
+		});
 		panel_2.add(btnBack_1);
 		
 		JButton btnHelp_2 = new JButton("Help");
+		btnHelp_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cl = (CardLayout)(contentPane.getLayout());
+				cl.show(contentPane, "Help");
+			}
+		});
 		panel_2.add(btnHelp_2);
 		
 		JButton btnCreate = new JButton("Create");
+		btnCreate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//TODO: create document button
+			}
+		});
 		panel_2.add(btnCreate);
 		
 		panel_3 = new JPanel();
@@ -231,14 +253,14 @@ public class GUI extends JFrame {
 		CreateTemplate.add(panel_4, BorderLayout.SOUTH);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{0};
-		gbl_panel_4.rowHeights = new int[]{25, 0, 0};
+		gbl_panel_4.rowHeights = new int[]{25, 0, 0, 0};
 		gbl_panel_4.columnWeights = new double[]{1.0};
-		gbl_panel_4.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_4.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 		
 		JPanel panel_6 = new JPanel();
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
-		gbc_panel_6.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_6.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_6.fill = GridBagConstraints.BOTH;
 		gbc_panel_6.gridx = 0;
 		gbc_panel_6.gridy = 0;
@@ -255,21 +277,78 @@ public class GUI extends JFrame {
 		
 		JPanel panel_7 = new JPanel();
 		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
-		gbc_panel_7.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_7.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_7.fill = GridBagConstraints.BOTH;
 		gbc_panel_7.gridx = 0;
-		gbc_panel_7.gridy = 1;
+		gbc_panel_7.gridy = 3;
 		panel_4.add(panel_7, gbc_panel_7);
 		panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnBack_2 = new JButton("Back");
+		btnBack_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cl = (CardLayout)(contentPane.getLayout());
+				cl.show(contentPane, "MainMenu");
+			}
+		});
 		panel_7.add(btnBack_2);
 		
 		JButton btnHelp_3 = new JButton("Help");
+		btnHelp_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cl = (CardLayout)(contentPane.getLayout());
+				cl.show(contentPane, "Help");
+			}
+		});
 		panel_7.add(btnHelp_3);
 		
 		JButton btnCreate_1 = new JButton("Create");
+		btnCreate_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//TODO: create template button
+			}
+		});
 		panel_7.add(btnCreate_1);
+		
+		JPanel panel_8 = new JPanel();
+		GridBagConstraints gbc_panel_8 = new GridBagConstraints();
+		gbc_panel_8.fill = GridBagConstraints.BOTH;
+		gbc_panel_8.gridx = 0;
+		gbc_panel_8.gridy = 2;
+		panel_4.add(panel_8, gbc_panel_8);
+		
+		JLabel lblNameTemplate = new JLabel("Name Template:");
+		panel_8.add(lblNameTemplate);
+		
+		textField_1 = new JTextField();
+		panel_8.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JPanel panel_9 = new JPanel();
+		GridBagConstraints gbc_panel_9 = new GridBagConstraints();
+		gbc_panel_9.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_9.fill = GridBagConstraints.BOTH;
+		gbc_panel_9.gridx = 0;
+		gbc_panel_9.gridy = 1;
+		panel_4.add(panel_9, gbc_panel_9);
+		
+		JButton btnSelectDirectory = new JButton("Select Directory");
+		btnSelectDirectory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String filePath = createFileChooser(true);
+				textField_2.setText(filePath);
+			}
+		});
+		panel_9.add(btnSelectDirectory);
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		panel_9.add(textField_2);
+		textField_2.setColumns(10);
 		
 		panel_5 = new JPanel();
 		
@@ -287,8 +366,14 @@ public class GUI extends JFrame {
 		contentPane.add(Help, "Help");
 	}
 	
-	private String createFileChooser() {
-		JFileChooser fileChooser = new JFileChooser();
+	private String createFileChooser(boolean directoriesOnly) {
+		JFileChooser fileChooser;
+		if (directoriesOnly) {
+			fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		} else {
+			fileChooser = new JFileChooser();
+		}
 		fileChooser.showOpenDialog(this);
 		return fileChooser.getSelectedFile().getAbsolutePath();
 	}
