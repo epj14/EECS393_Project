@@ -2,13 +2,15 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -21,7 +23,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
+
+import com.itextpdf.text.DocumentException;
 
 public class GUI extends JFrame {
 
@@ -38,6 +41,9 @@ public class GUI extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1; //TODO: reset these after the final button in sequence has been pressed
 	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -171,9 +177,31 @@ public class GUI extends JFrame {
 				if (textField.getText().equals("")) {
 					createErrorDialog("Please select a file.");
 				} else {
-					//TODO: get arraylist<String> of headings instead of elements, pass to generateHeadings
-					//also clear this at some point
-					//generateHeadings(panel_3);
+					//TODO: also clear this at some point
+					if (textField_3.getText().equals("")) {
+						createErrorDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()) + ".");
+						try {
+							cw = new ContentWriter(textField.getText());
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (InvalidFileException e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						try {
+							String fileSeparator = System.getProperty("file.separator");
+							cw = new ContentWriter(textField.getText(), textField_4.getText() + fileSeparator + textField_3.getText());
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (InvalidFileException e1) {
+							e1.printStackTrace();
+						}
+					}
+					try {
+						generateHeadings(panel_3, cw.getHeadingsArray());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					CardLayout cl = (CardLayout)(contentPane.getLayout());
 					cl.show(contentPane, "CreateDocument_2");
 				}
@@ -183,21 +211,77 @@ public class GUI extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		CreateDocument_1.add(panel_1, BorderLayout.CENTER);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{112, 109, 86, 0};
+		gbl_panel_1.rowHeights = new int[]{23, 0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
 		
-		JButton btnSelectFile = new JButton("Select File");
-		btnSelectFile.addMouseListener(new MouseAdapter() {
+		JButton btnSelectTemplate = new JButton("Select Template");
+		btnSelectTemplate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String filePath = createFileChooser(false);
 				textField.setText(filePath);
 			}
 		});
-		panel_1.add(btnSelectFile);
+		GridBagConstraints gbc_btnSelectTemplate = new GridBagConstraints();
+		gbc_btnSelectTemplate.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnSelectTemplate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSelectTemplate.gridx = 1;
+		gbc_btnSelectTemplate.gridy = 0;
+		panel_1.add(btnSelectTemplate, gbc_btnSelectTemplate);
 		
 		textField = new JTextField();
 		textField.setEditable(false);
-		panel_1.add(textField);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 2;
+		gbc_textField.gridy = 0;
+		panel_1.add(textField, gbc_textField);
 		textField.setColumns(10);
+		
+		JButton btnSelectDirectory_1 = new JButton("Select Directory:");
+		btnSelectDirectory_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String filePath = createFileChooser(true);
+				textField_4.setText(filePath);
+			}
+		});
+		GridBagConstraints gbc_btnSelectDirectory_1 = new GridBagConstraints();
+		gbc_btnSelectDirectory_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSelectDirectory_1.gridx = 1;
+		gbc_btnSelectDirectory_1.gridy = 1;
+		panel_1.add(btnSelectDirectory_1, gbc_btnSelectDirectory_1);
+		
+		textField_4 = new JTextField();
+		textField_4.setEditable(false);
+		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
+		gbc_textField_4.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_4.gridx = 2;
+		gbc_textField_4.gridy = 1;
+		panel_1.add(textField_4, gbc_textField_4);
+		textField_4.setColumns(10);
+		
+		JLabel lblNameOutputFile = new JLabel("Name Output File:");
+		GridBagConstraints gbc_lblNameOutputFile = new GridBagConstraints();
+		gbc_lblNameOutputFile.anchor = GridBagConstraints.EAST;
+		gbc_lblNameOutputFile.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNameOutputFile.gridx = 1;
+		gbc_lblNameOutputFile.gridy = 2;
+		panel_1.add(lblNameOutputFile, gbc_lblNameOutputFile);
+		
+		textField_3 = new JTextField();
+		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
+		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_3.gridx = 2;
+		gbc_textField_3.gridy = 2;
+		panel_1.add(textField_3, gbc_textField_3);
+		textField_3.setColumns(10);
 		
 		JPanel CreateDocument_2 = new JPanel();
 		contentPane.add(CreateDocument_2, "CreateDocument_2");
@@ -231,7 +315,22 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//TODO: create document button
-				
+				try {
+					cw.writeInitialContent(textArea.getText());
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+				writeAllContent();
+				try {
+					pw = new PDFWriter(cw.getOutputFilename(), StringUtil.replaceExtension(cw.getOutputFilename(), "pdf"));
+					pw.writePDF();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (InvalidFileException e1) {
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		panel_2.add(btnCreate);
@@ -246,6 +345,39 @@ public class GUI extends JFrame {
 		gbl_panel_3.rowWeights = new double[]{Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		CreateDocument_2.add(scrollPane, BorderLayout.CENTER);
+		
+		JPanel panel_10 = new JPanel();
+		CreateDocument_2.add(panel_10, BorderLayout.NORTH);
+		GridBagLayout gbl_panel_10 = new GridBagLayout();
+		gbl_panel_10.columnWidths = new int[]{171, 68, 4, 1, 0};
+		gbl_panel_10.rowHeights = new int[]{22, 0};
+		gbl_panel_10.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_10.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_10.setLayout(gbl_panel_10);
+		
+		JLabel lblInitialContent = new JLabel("Initial Content");
+		GridBagConstraints gbc_lblInitialContent = new GridBagConstraints();
+		gbc_lblInitialContent.anchor = GridBagConstraints.WEST;
+		gbc_lblInitialContent.insets = new Insets(0, 0, 0, 5);
+		gbc_lblInitialContent.gridx = 1;
+		gbc_lblInitialContent.gridy = 0;
+		panel_10.add(lblInitialContent, gbc_lblInitialContent);
+		
+		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.anchor = GridBagConstraints.NORTHWEST;
+		gbc_textArea.insets = new Insets(0, 0, 0, 5);
+		gbc_textArea.gridx = 1;
+		gbc_textArea.gridy = 1;
+		panel_10.add(textArea, gbc_textArea);
+		
+		JSeparator separator = new JSeparator();
+		GridBagConstraints gbc_separator = new GridBagConstraints();
+		gbc_separator.anchor = GridBagConstraints.WEST;
+		gbc_separator.gridx = 1;
+		gbc_separator.gridy = 2;
+		panel_10.add(separator, gbc_separator);
 		
 		JPanel CreateTemplate = new JPanel();
 		contentPane.add(CreateTemplate, "CreateTemplate");
@@ -311,6 +443,15 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//TODO: create template button
+				String fileSeparator = System.getProperty("file.separator");
+				tw = new TemplateWriter(textField_2.getText() + fileSeparator + StringUtil.replaceExtension(textField_1.getText(), "html"));
+				appendAllTemplateContent();
+				System.out.println(tw.getContentList());
+				try {
+					tw.writeTemplateContent();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		panel_7.add(btnCreate_1);
@@ -384,13 +525,9 @@ public class GUI extends JFrame {
 		JOptionPane.showMessageDialog(this, message);
 	}
 	
-	private void generateHeadings(JPanel panel, ArrayList<String> list) {
-//		ArrayList<String> list = new ArrayList<String>(); //TODO: get this from template instead of hard code
-//		list.add("first");
-//		list.add("second");
-//		list.add("third");
+	private void generateHeadings(JPanel panel, String[] headings) {
 		int gridy = 0;
-		for(String s : list) {
+		for(String s : headings) {
 			JLabel label = new JLabel(s);
 			GridBagConstraints gbc_label = new GridBagConstraints();
 			gbc_label.insets = new Insets(0, 0, 5, 0);
@@ -441,6 +578,33 @@ public class GUI extends JFrame {
 		
 		panel.revalidate();
 		validate();
+	}
+	
+	private void writeAllContent() {
+		Component[] c = panel_3.getComponents();
+		for (int i = 0; i < c.length; i++) {
+			String heading = ((JLabel) c[i]).getText();
+			String content = ((JTextArea) c[i + 1]).getText();
+			try {
+				cw.writeContent(heading, content);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			i += 2;
+		}
+	}
+	
+	private void appendAllTemplateContent() {
+		Component[] c = panel_5.getComponents();
+		for (int i = 0; i < c.length; i++) {
+			String heading = ((JTextField) c[i]).getText();
+			try {
+				tw.appendTemplateContent(heading);
+			} catch (NonuniqueHeadingException e) {
+				e.printStackTrace();
+			}
+			i++;
+		}
 	}
 	
 }

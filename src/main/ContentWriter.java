@@ -56,7 +56,7 @@ public class ContentWriter {
 	 * @throws InvalidFileException if the template file is not a valid type
 	 */
 	public ContentWriter(String templateFilename) throws IOException, InvalidFileException {
-		this(templateFilename, StringUtil.prependOutput(templateFilename));
+		this(templateFilename, StringUtil.prependOutput(StringUtil.replaceExtension(templateFilename, "html")));
 	}
 	
 	/**
@@ -156,7 +156,16 @@ public class ContentWriter {
 	public void writeContent(String heading, String content) throws IOException {
 		File outputFile = new File(outputFilename);
 		Document doc = Jsoup.parse(outputFile, "UTF-8");
-		Element h = doc.select("h1, h2, h3, h4, h5, h6:contains(" + heading + ")").get(0);
+		Elements es = doc.select("h1, h2, h3, h4, h5, h6:contains(" + heading + ")");
+		Element h = null;
+		for (Element e : es) {
+			if (e.text().equals(heading)) {
+				h = e;
+			}
+		}
+		if (h == null) {
+			throw new IOException("heading " + heading + " was not found");
+		}
 		Element p = h.nextElementSibling();
 		content = StringUtil.removeH(content);
 		PegDownProcessor pdp = new PegDownProcessor();
