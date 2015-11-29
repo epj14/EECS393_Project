@@ -113,6 +113,16 @@ public class ContentWriter {
 	}
 	
 	/**
+	 * gets all of the headings in the output file as a String[]
+	 * @return all of the headings in the output file as a String[]
+	 * @throws IOException if an I/O error occurs
+	 */
+	public String[] getHeadingsArray() throws IOException {
+		Elements es = getHeadings();
+		return StringUtil.removeH(es.toString()).split("\n");
+	}
+	
+	/**
 	 * writes user supplied input into the output file under the first p section in the 
 	 * document, this section is meant to contain general information about the person 
 	 * who is authoring the document (for example: contact information)
@@ -155,5 +165,5 @@ public class ContentWriter {
 		bw.write(doc.toString());
 		bw.close();
 	}
-
+	
 }

@@ -32,11 +32,11 @@ public class GUI extends JFrame {
 	private PDFWriter pw;
 	
 	private JPanel contentPane;
-	private JTextField textField;
 	private JPanel panel_3;
 	private JPanel panel_5;
 	private int headingYPos = 0;
-	private JTextField textField_1;
+	private JTextField textField;
+	private JTextField textField_1; //TODO: reset these after the final button in sequence has been pressed
 	private JTextField textField_2;
 
 	/**
@@ -158,7 +158,6 @@ public class GUI extends JFrame {
 		btnHelp_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO: point to specific help
 				CardLayout cl = (CardLayout)(contentPane.getLayout());
 				cl.show(contentPane, "Help");
 			}
@@ -170,9 +169,11 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (textField.getText().equals("")) {
-					createErrorDialog();
+					createErrorDialog("Please select a file.");
 				} else {
-					generateHeadings(panel_3);
+					//TODO: get arraylist<String> of headings instead of elements, pass to generateHeadings
+					//also clear this at some point
+					//generateHeadings(panel_3);
 					CardLayout cl = (CardLayout)(contentPane.getLayout());
 					cl.show(contentPane, "CreateDocument_2");
 				}
@@ -230,6 +231,7 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//TODO: create document button
+				
 			}
 		});
 		panel_2.add(btnCreate);
@@ -378,15 +380,15 @@ public class GUI extends JFrame {
 		return fileChooser.getSelectedFile().getAbsolutePath();
 	}
 	
-	private void createErrorDialog() {
-		JOptionPane.showMessageDialog(this, "Please select a file.");
+	private void createErrorDialog(String message) {
+		JOptionPane.showMessageDialog(this, message);
 	}
 	
-	private void generateHeadings(JPanel panel) {
-		ArrayList<String> list = new ArrayList<String>(); //TODO: get this from template instead of hard code
-		list.add("first");
-		list.add("second");
-		list.add("third");
+	private void generateHeadings(JPanel panel, ArrayList<String> list) {
+//		ArrayList<String> list = new ArrayList<String>(); //TODO: get this from template instead of hard code
+//		list.add("first");
+//		list.add("second");
+//		list.add("third");
 		int gridy = 0;
 		for(String s : list) {
 			JLabel label = new JLabel(s);

@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -169,6 +170,46 @@ public class ContentWriterTest {
 		expected.add(new Element(Tag.valueOf("h2"), "").appendText("heading 2"));
 		expected.add(new Element(Tag.valueOf("h3"), "").appendText("heading 3"));
 		assertEquals(expected, cw.getHeadings());
+	}
+	
+	/**
+	 * tests if getHeadingsArray successfully gets a single heading
+	 * @throws IOException
+	 */
+	@Test
+	public void testGetHeadingsArray() throws IOException {
+		String[] expected = {"heading"};
+		assertArrayEquals(expected, cw.getHeadingsArray());
+	}
+	
+	/**
+	 * tests if getHeadingsArray successfully gets multiple headings
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 */
+	@Test
+	public void testGetHeadingsArray_Multiple() throws IOException, InvalidFileException {
+		templateFilename = "test2.html";
+		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
+		File file = folder.newFile(templateFilename);
+		fileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ "<body>\n"
+				+ "<p></p>\n"
+				+ " <h1>heading 1</h1>\n"
+				+ " <p></p>\n"
+				+ " <h2>heading 2</h2>\n"
+				+ " <p></p>\n"
+				+ " <h3>heading 3</h3>\n"
+				+ " <p></p>\n"
+				+ "</body>\n"
+				+ "</html>";
+		PrintWriter pw = new PrintWriter(file.getAbsolutePath());
+		pw.println(fileContents);
+		pw.close();
+		cw = new ContentWriter(templateFilepath);
+		String[] expected = {"heading 1", "heading 2", "heading 3"};
+		assertArrayEquals(expected, cw.getHeadingsArray());
 	}
 	
 	/**
