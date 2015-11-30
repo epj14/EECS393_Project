@@ -175,11 +175,10 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (textField.getText().equals("")) {
-					createErrorDialog("Please select a file.");
+					createMessageDialog("Please select a file.");
 				} else {
-					//TODO: also clear this at some point
 					if (textField_3.getText().equals("")) {
-						createErrorDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()) + ".");
+						createMessageDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()) + ".");
 						try {
 							cw = new ContentWriter(textField.getText());
 						} catch (IOException e1) {
@@ -317,13 +316,13 @@ public class GUI extends JFrame {
 				//TODO: create document button
 				try {
 					cw.writeInitialContent(textArea.getText());
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-				writeAllContent();
-				try {
+					writeAllContent();
 					pw = new PDFWriter(cw.getOutputFilename(), StringUtil.replaceExtension(cw.getOutputFilename(), "pdf"));
 					pw.writePDF();
+					clearCreateDocument();
+					createMessageDialog("Created file " + pw.getOutputFilename());
+					CardLayout cl = (CardLayout)(contentPane.getLayout());
+					cl.show(contentPane, "MainMenu");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (InvalidFileException e1) {
@@ -446,9 +445,12 @@ public class GUI extends JFrame {
 				String fileSeparator = System.getProperty("file.separator");
 				tw = new TemplateWriter(textField_2.getText() + fileSeparator + StringUtil.replaceExtension(textField_1.getText(), "html"));
 				appendAllTemplateContent();
-				System.out.println(tw.getContentList());
 				try {
 					tw.writeTemplateContent();
+					clearCreateTemplate();
+					createMessageDialog("Created file " + tw.getTemplateFilename());
+					CardLayout cl = (CardLayout)(contentPane.getLayout());
+					cl.show(contentPane, "MainMenu");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -521,7 +523,7 @@ public class GUI extends JFrame {
 		return fileChooser.getSelectedFile().getAbsolutePath();
 	}
 	
-	private void createErrorDialog(String message) {
+	private void createMessageDialog(String message) {
 		JOptionPane.showMessageDialog(this, message);
 	}
 	
@@ -605,6 +607,23 @@ public class GUI extends JFrame {
 			}
 			i++;
 		}
+	}
+	
+	private void clearCreateDocument() {
+		textField.setText("");
+		textField_4.setText("");
+		textField_3.setText("");
+		panel_3.removeAll();
+		textArea.setText("");
+	}
+	
+	private void clearCreateTemplate() {
+		panel_5.removeAll();
+		panel_5.revalidate();
+		panel_5.repaint();
+		validate();
+		textField_1.setText("");
+		textField_2.setText("");
 	}
 	
 }
