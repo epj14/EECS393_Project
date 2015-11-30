@@ -178,7 +178,7 @@ public class GUI extends JFrame {
 					createMessageDialog("Please select a file.");
 				} else {
 					if (textField_3.getText().equals("")) {
-						createMessageDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()) + ".");
+						createMessageDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()));
 						try {
 							cw = new ContentWriter(textField.getText());
 						} catch (IOException e1) {
