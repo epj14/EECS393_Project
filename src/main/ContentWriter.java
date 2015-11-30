@@ -169,7 +169,7 @@ public class ContentWriter {
 		Element p = h.nextElementSibling();
 		content = StringUtil.removeH(content);
 		PegDownProcessor pdp = new PegDownProcessor();
-		p.text(StringUtil.stripP(pdp.markdownToHtml(content)));
+		p.html(StringUtil.stripP(pdp.markdownToHtml(content)));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
 		bw.write(doc.toString());
 		bw.close();
