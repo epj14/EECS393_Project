@@ -624,6 +624,7 @@ public class GUI extends JFrame {
 		validate();
 		textField_1.setText("");
 		textField_2.setText("");
+		headingYPos = 0;
 	}
 	
 }
