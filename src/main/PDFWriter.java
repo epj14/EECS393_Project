@@ -87,6 +87,8 @@ public class PDFWriter {
 		document.open();
 		XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(inputFilename));
 		document.close();
+		File inputFile = new File(inputFilename);
+		inputFile.delete();
 	}
 	
 }
