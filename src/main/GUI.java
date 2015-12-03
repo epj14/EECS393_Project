@@ -55,7 +55,7 @@ public class GUI extends JFrame {
 					GUI frame = new GUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
