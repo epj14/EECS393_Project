@@ -174,35 +174,40 @@ public class GUI extends JFrame {
 		btnContinue.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (textField.getText().equals("")) {
-					createMessageDialog("Please select a file.");
-				} else {
-					if (textField_3.getText().equals("")) {
-						createMessageDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()));
-						try {
-							cw = new ContentWriter(textField.getText());
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						} catch (InvalidFileException e1) {
-							e1.printStackTrace();
-						}
+				try {
+					if (textField.getText().equals("")) {
+						createMessageDialog("Please select a file.");
 					} else {
+						if (textField_3.getText().equals("")) {
+							createMessageDialog("No output file name provided, defaulting to " + StringUtil.prependOutput(textField.getText()));
+							try {
+								cw = new ContentWriter(textField.getText());
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							} catch (InvalidFileException e1) {
+								e1.printStackTrace();
+							}
+						} else {
+							try {
+								String fileSeparator = System.getProperty("file.separator");
+								cw = new ContentWriter(textField.getText(), textField_4.getText() + fileSeparator + textField_3.getText());
+								cw.checkNonuniqueHeadings();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							} catch (InvalidFileException e1) {
+								e1.printStackTrace();
+							}
+						}
 						try {
-							String fileSeparator = System.getProperty("file.separator");
-							cw = new ContentWriter(textField.getText(), textField_4.getText() + fileSeparator + textField_3.getText());
+							generateHeadings(panel_3, cw.getHeadingsArray());
 						} catch (IOException e1) {
 							e1.printStackTrace();
-						} catch (InvalidFileException e1) {
-							e1.printStackTrace();
 						}
+						CardLayout cl = (CardLayout)(contentPane.getLayout());
+						cl.show(contentPane, "CreateDocument_2");
 					}
-					try {
-						generateHeadings(panel_3, cw.getHeadingsArray());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					CardLayout cl = (CardLayout)(contentPane.getLayout());
-					cl.show(contentPane, "CreateDocument_2");
+				} catch (NonuniqueHeadingException e1) {
+					createMessageDialog("Headings in template must be unique.");
 				}
 			}
 		});
