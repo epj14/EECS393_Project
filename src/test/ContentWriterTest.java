@@ -1,7 +1,7 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +21,7 @@ import org.junit.rules.TemporaryFolder;
 
 import main.ContentWriter;
 import main.InvalidFileException;
+import main.NonuniqueHeadingException;
 import main.StringUtil;
 
 /**
@@ -210,6 +211,45 @@ public class ContentWriterTest {
 		cw = new ContentWriter(templateFilepath);
 		String[] expected = {"heading 1", "heading 2", "heading 3"};
 		assertArrayEquals(expected, cw.getHeadingsArray());
+	}
+	
+	/**
+	 * tests if checkNonuniqueHeadings does not throw a NonuniqueHeadingException if all 
+	 * of the headings in the output file are unique
+	 * @throws IOException
+	 * @throws NonuniqueHeadingException
+	 */
+	@Test
+	public void testCheckNonuniqueHeadings() throws IOException, NonuniqueHeadingException {
+		cw.checkNonuniqueHeadings();
+	}
+	
+	/**
+	 * tests if checkNonuniqueHeadings does throw a NonuniqueHeadingException if not all 
+	 * of the headings in the output file are unique
+	 * @throws IOException
+	 * @throws InvalidFileException
+	 * @throws NonuniqueHeadingException
+	 */
+	@Test(expected = NonuniqueHeadingException.class)
+	public void testCheckNonuniqueHeadings_Exception() throws IOException, InvalidFileException, NonuniqueHeadingException {
+		templateFilename = "test2.html";
+		templateFilepath = folder.getRoot().getAbsolutePath() + File.separator + templateFilename;
+		File file = folder.newFile(templateFilename);
+		fileContents = "<!doctype html>\n"
+				+ "<html>\n"
+				+ "<body>\n"
+				+ "<p></p>\n"
+				+ " <h1>heading</h1>\n"
+				+ " <p></p>\n"
+				+ " <h2>heading</h2>\n"
+				+ "</body>\n"
+				+ "</html>";
+		PrintWriter pw = new PrintWriter(file.getAbsolutePath());
+		pw.println(fileContents);
+		pw.close();
+		cw = new ContentWriter(templateFilepath);
+		cw.checkNonuniqueHeadings();
 	}
 	
 	/**

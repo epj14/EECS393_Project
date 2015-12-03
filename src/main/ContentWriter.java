@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -120,6 +121,25 @@ public class ContentWriter {
 	public String[] getHeadingsArray() throws IOException {
 		Elements es = getHeadings();
 		return StringUtil.removeH(es.toString()).split("\n");
+	}
+	
+	/**
+	 * checks for nonunique headings in the output file and throws a 
+	 * NonuniqueHeadingException if any are found, this method should be used to check 
+	 * that content will always be able to be written to the correct heading before 
+	 * writing any content
+	 * @throws IOException if an I/O error occurs
+	 * @throws NonuniqueHeadingException if a nonunique heading is found
+	 */
+	public void checkNonuniqueHeadings() throws IOException, NonuniqueHeadingException {
+		String[] headings = getHeadingsArray();
+		HashSet<String> hs = new HashSet<String>();
+		for (String s : headings) {
+			if (hs.contains(s)) {
+				throw new NonuniqueHeadingException("nonunique heading found");
+			}
+			hs.add(s);
+		}
 	}
 	
 	/**
