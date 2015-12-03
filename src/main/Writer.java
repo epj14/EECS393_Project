@@ -10,7 +10,12 @@ public class Writer {
 	 * @param args none
 	 */
 	public static void main(String[] args) {
-
+		try {
+			GUI g = new GUI();
+			g.setVisible(true);
+		} catch (Exception e) {
+			
+		}
 	}
 
 }

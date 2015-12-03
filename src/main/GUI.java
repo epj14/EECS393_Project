@@ -39,7 +39,7 @@ public class GUI extends JFrame {
 	private JPanel panel_5;
 	private int headingYPos = 0;
 	private JTextField textField;
-	private JTextField textField_1; //TODO: reset these after the final button in sequence has been pressed
+	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
