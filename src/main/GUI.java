@@ -117,8 +117,13 @@ public class GUI extends JFrame {
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "Help");
+				createHelpDialog("Choose Create Document to move to the document creation menu where you can create a new resume with a template of your choice.\n" +
+						"\n" +
+						"Choose Create Template to move to the template creation menu where you can choose headings to add to a template.\n" + 
+						"\n" +
+						"Choose Exit to close the program entirely.  Be aware that anything unsaved will be lost.\n" + 
+						"\n" +
+						"Choose Help to display this text again.");
 			}
 		});
 		GridBagConstraints gbc_btnHelp = new GridBagConstraints();
@@ -164,8 +169,13 @@ public class GUI extends JFrame {
 		btnHelp_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "Help");
+				createHelpDialog("Click the Select Template button to browse to the template you wish to use.  NOTE: Templates MUST be HTML files or they will not be recognized by the program.\n" + 
+						"\n" + 
+						"Click the select Directory button to choose the location where your file will be saved.\n" + 
+						"\n" + 
+						"Use the text box to name the file that your resume will be saved as. Use only letters and numbers in your file name to guarantee that your file will save correctly.\n" + 
+						"\n" + 
+						"Click Back to return to the previous menu.  Click Continue when you've filled out this section of the program.  Click Help to show this text again.");
 			}
 		});
 		panel.add(btnHelp_1);
@@ -308,8 +318,9 @@ public class GUI extends JFrame {
 		btnHelp_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "Help");
+				createHelpDialog("On this screen, the headings will be displayed in the scrollable panel along with a line where you can enter the text that should appear under the heading.\n" + 
+						"\n" + 
+						"Click Create to generate a PDF version of your resume.  Click Back to go back to the previous menu.  Click Help to display this text again.");
 			}
 		});
 		panel_2.add(btnHelp_2);
@@ -436,8 +447,13 @@ public class GUI extends JFrame {
 		btnHelp_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CardLayout cl = (CardLayout)(contentPane.getLayout());
-				cl.show(contentPane, "Help");
+				createHelpDialog("Click the add heading button to add a blank line to the main panel.  You can name your heading in this line.  Make sure every heading is unique!\n" + 
+						"\n" + 
+						"Click the Select Directory button to choose the location where your file will be saved to.\n" + 
+						"\n" + 
+						"Use the Name Template box to name the template. Please use only letters and numbers in your template name to guarantee that your file will save correctly\n" + 
+						"\n" + 
+						"Click Create to create the template with the desired fields.  Click Back to return to the previous menu.  Click Help to display this text again.");
 			}
 		});
 		panel_7.add(btnHelp_3);
@@ -510,10 +526,6 @@ public class GUI extends JFrame {
 		gbl_panel_5.rowWeights = new double[]{Double.MIN_VALUE};
 		panel_5.setLayout(gbl_panel_5);
 		CreateTemplate.add(scrollPane_1, BorderLayout.CENTER);
-		
-		JPanel Help = new JPanel();
-		//TODO: create Help panel
-		contentPane.add(Help, "Help");
 	}
 	
 	private String createFileChooser(boolean directoriesOnly) {
@@ -530,6 +542,20 @@ public class GUI extends JFrame {
 	
 	private void createMessageDialog(String message) {
 		JOptionPane.showMessageDialog(this, message);
+	}
+	
+	private void createHelpDialog(String help) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><body>");
+		String[] split = help.split("\n");
+		for (String s : split) {
+			sb.append("<p style='width: 300px;'>");
+			sb.append(s);
+			sb.append("</p>");
+		}
+		sb.append("</body></html>");
+		String html = sb.toString();
+		JOptionPane.showMessageDialog(this, html, "Help", JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	private void generateHeadings(JPanel panel, String[] headings) {
