@@ -18,9 +18,12 @@ public class TemplateWriter {
 	private String templateFilename;
 	// the content that will be added to the template file
 	private ArrayList<String> contentList;
+<<<<<<< HEAD
 
 	// Style parameters
 	private ArrayList<String> styles;
+=======
+>>>>>>> master
 	
 	/**
 	 * constructor for TemplateWriter
@@ -100,6 +103,7 @@ public class TemplateWriter {
 			contentList.add(content);
 		}
 	}
+<<<<<<< HEAD
 
 	/**
 	 * adds CSS styling for headings and paragraphs
@@ -109,6 +113,8 @@ public class TemplateWriter {
 	public void addStyle(String style, int stylePlace) {
 		styles[stylePlace] = style;
 	}
+=======
+>>>>>>> master
 	
 	/**
 	 * writes the content stored by contentList into the template file and parses the 
@@ -119,6 +125,7 @@ public class TemplateWriter {
 	public void writeTemplateContent() throws IOException {
 		File templateFile = generateTemplateFile(templateFilename);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(templateFile, false), "UTF-8"));
+<<<<<<< HEAD
 		bw.write(
 			"<!DOCTYPE html>\n
 			<html>\n
@@ -150,6 +157,9 @@ public class TemplateWriter {
 		bw.write("</style>");
 		bw.write("<body>");
 	
+=======
+		bw.write("<!DOCTYPE html>\n<html><head></head><body><p></p>");
+>>>>>>> master
 		for (String s : contentList) {
 			bw.write(s);
 		}
