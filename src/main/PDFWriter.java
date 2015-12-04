@@ -36,7 +36,7 @@ public class PDFWriter {
 		}
 		if (Files.probeContentType(Paths.get(inputFilename)) != null && checkFileType) {
 			this.inputFilename = inputFilename;
-			this.outputFilename = outputFilename;
+			this.outputFilename = StringUtil.replaceExtension(outputFilename, "pdf");
 		} else {
 			throw new InvalidFileException("invalid file type: " + 
 					Files.probeContentType(Paths.get(inputFilename)) + 
@@ -76,7 +76,7 @@ public class PDFWriter {
 	 * @param outputFilename the output filename to set
 	 */
 	public void setOutputFilename(String outputFilename) {
-		this.outputFilename = outputFilename;
+		this.outputFilename = StringUtil.replaceExtension(outputFilename, "pdf");
 	}
 
 	/**
