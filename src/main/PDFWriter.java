@@ -30,7 +30,11 @@ public class PDFWriter {
 	 * @throws InvalidFileException if the input file is not a valid type
 	 */
 	public PDFWriter(String inputFilename, String outputFilename) throws IOException, InvalidFileException {
-		if (Files.probeContentType(Paths.get(inputFilename)) != null && Files.probeContentType(Paths.get(inputFilename)).equals("text/html")) {
+		boolean checkFileType = Files.probeContentType(Paths.get(inputFilename)).equals("text/html");
+		if (System.getProperty("os.name").equals("Mac OS X")) { //Mac OS X does not include text/html in its mimes.types file
+			checkFileType = true;
+		}
+		if (Files.probeContentType(Paths.get(inputFilename)) != null && checkFileType) {
 			this.inputFilename = inputFilename;
 			this.outputFilename = outputFilename;
 		} else {
