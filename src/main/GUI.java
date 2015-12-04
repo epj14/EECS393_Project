@@ -221,7 +221,7 @@ public class GUI extends JFrame {
 						} else {
 							try {
 								String fileSeparator = System.getProperty("file.separator");
-								cw = new ContentWriter(textField.getText(), textField_4.getText() + fileSeparator + textField_3.getText());
+								cw = new ContentWriter(textField.getText(), textField_4.getText() + fileSeparator + StringUtil.replaceExtension(textField_3.getText(), "html"));
 								cw.checkNonuniqueHeadings();
 							} catch (IOException e1) {
 								e1.printStackTrace();
