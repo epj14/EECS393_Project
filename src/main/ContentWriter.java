@@ -37,9 +37,9 @@ public class ContentWriter {
 	 * @throws InvalidFileException if the template file is not a valid type
 	 */
 	public ContentWriter(String templateFilename, String outputFilename) throws IOException, InvalidFileException {
-		boolean checkFileType = Files.probeContentType(Paths.get(templateFilename)).equals("text/html");
-		if (System.getProperty("os.name").equals("Mac OS X")) { //Mac OS X does not include text/html in its mimes.types file
-			checkFileType = true;
+		boolean checkFileType = true;
+		if (!(System.getProperty("os.name").equals("Mac OS X"))) { //Mac OS X does not include text/html in its mimes.types file
+			checkFileType = Files.probeContentType(Paths.get(templateFilename)).equals("text/html");
 		}
 		if (Files.probeContentType(Paths.get(templateFilename)) != null && checkFileType) {
 			this.templateFilename = templateFilename;
