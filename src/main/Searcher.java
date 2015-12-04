@@ -58,18 +58,20 @@ public class Searcher {
 				return name.toLowerCase().endsWith(".pdf");
 			}
 		});
-		for (File f : files) {
-			PdfReader reader = new PdfReader(f.getAbsolutePath());
-			PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-			TextExtractionStrategy strategy;
-			for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-				try {
-					strategy = parser.processContent(i,  new SimpleTextExtractionStrategy());
-					if (strategy.getResultantText().contains(query)) {
-						result.add(f.getAbsolutePath());
+		if (files != null) {
+			for (File f : files) {
+				PdfReader reader = new PdfReader(f.getAbsolutePath());
+				PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+				TextExtractionStrategy strategy;
+				for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+					try {
+						strategy = parser.processContent(i,  new SimpleTextExtractionStrategy());
+						if (strategy.getResultantText().contains(query)) {
+							result.add(f.getAbsolutePath());
+						}
+					} catch (IOException e) {
+						//ignore if PDF text cannot be reads
 					}
-				} catch (IOException e) {
-					//ignore if PDF text cannot be reads
 				}
 			}
 		}
