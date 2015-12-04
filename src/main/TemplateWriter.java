@@ -21,7 +21,7 @@ public class TemplateWriter {
 <<<<<<< HEAD
 
 	// Style parameters
-	private ArrayList<String> styles;
+	private String[] style = new String[20];
 =======
 >>>>>>> master
 	
@@ -146,19 +146,30 @@ public class TemplateWriter {
 			"}\n
 			p {\n				
 				font-size: ");
-		bw.write(styles[0]);
+		bw.write(styles[4]);
 		bw.write("\nfont-style: ");
-		bw.write(styles[1]);
+		bw.write(styles[5]);
 		bw.write("\nfont-family: ");
-		bw.write(styles[2]);
+		bw.write(styles[6]);
 		bw.write("\nfont-weight: ");
-		bw.write(styles[3]);
-		bw.write("\n}")
+		bw.write(styles[7]);
+		bw.write("\n}\n");
+
+		bw.write("div.initial {\n
+			font-size: ");
+		bw.write(styles[9]);
+		bw.write("\nfont-style: ");
+		bw.write(style[10]);
+		bw.write("\nfont-family: ");
+		bw.write(styles[11]);
+		bw.write("\nfont-weight: ");
+		bw.write(styles[12]);
+		bw.write("\n}\n")
 		bw.write("</style>");
 		bw.write("<body>");
 	
 =======
-		bw.write("<!DOCTYPE html>\n<html><head></head><body><p></p>");
+		bw.write("<!DOCTYPE html>\n<html><head></head><body><div class=\"initial\"<p></p></div>");
 >>>>>>> master
 		for (String s : contentList) {
 			bw.write(s);
