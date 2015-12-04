@@ -568,7 +568,6 @@ public class GUI extends JFrame {
 		btnHelp_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO: help
 				createHelpDialog("Click the Select Directory button to choose the directory where the search will be performed.\n" + 
 						"\n" + 
 						"Enter your query in the Query field.\n" + 
