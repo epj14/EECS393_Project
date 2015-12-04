@@ -135,11 +135,11 @@ public class TemplateWriter {
 			h1 {\n
 				font-size: ");
 		bw.write(styles[0]);
-		bw.write("\nfont-style: ");
+		bw.write(";\nfont-style: ");
 		bw.write(styles[1]);
-		bw.write("\nfont-family: ");
+		bw.write(";\nfont-family: ");
 		bw.write(styles[2]);
-		bw.write("\nfont-weight: ");
+		bw.write(";\nfont-weight: ");
 		bw.write(styles[3]);
 
 		bw.write(
@@ -147,24 +147,24 @@ public class TemplateWriter {
 			p {\n				
 				font-size: ");
 		bw.write(styles[4]);
-		bw.write("\nfont-style: ");
+		bw.write(";\nfont-style: ");
 		bw.write(styles[5]);
-		bw.write("\nfont-family: ");
+		bw.write(";\nfont-family: ");
 		bw.write(styles[6]);
-		bw.write("\nfont-weight: ");
+		bw.write(";\nfont-weight: ");
 		bw.write(styles[7]);
-		bw.write("\n}\n");
+		bw.write(";\n}\n");
 
 		bw.write("div.initial {\n
 			font-size: ");
 		bw.write(styles[9]);
-		bw.write("\nfont-style: ");
+		bw.write(";\nfont-style: ");
 		bw.write(style[10]);
-		bw.write("\nfont-family: ");
+		bw.write(";\nfont-family: ");
 		bw.write(styles[11]);
-		bw.write("\nfont-weight: ");
+		bw.write(";\nfont-weight: ");
 		bw.write(styles[12]);
-		bw.write("\n}\n")
+		bw.write(";\n}\n")
 		bw.write("</style>");
 		bw.write("<body>");
 	
